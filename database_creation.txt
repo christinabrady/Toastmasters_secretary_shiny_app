@@ -1,0 +1,21 @@
+#Database creation:
+
+CREATE TABLE members (
+	name				varchar(80),  
+	member_number		int,			-- primary key
+	member_since		date, 
+	status				varchar(80)
+);
+
+CREATE TABLE meetings (
+	meeting_date		date, 
+	role				varchar(80), -- include role_guest and name_guest
+	name				varchar(80)  -- foreign key
+);
+
+CREATE TABLE speeches (
+	name 				varchar(80)  -- foreign key
+	speech_num			int, 
+	title				varchar(80)
+	speech_date			date
+);

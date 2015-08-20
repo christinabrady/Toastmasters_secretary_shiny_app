@@ -62,3 +62,90 @@ runApp()
 runApp()
 runApp()
 runApp()
+runApp()
+?downloadHandler
+runApp()
+attend <- list()
+names(attend) <- roles_list
+attend <- list(rep("", length(roles_list)))
+attend
+attend[[2]]
+rm(attend)
+attend <- vector("list", length(roles_list))
+attend
+names(attend) <- roles_list
+attend
+runApp()
+rm(list=ls())
+runApp()
+runApp()
+runApp()
+attend
+runApp()
+attend
+runApp()
+runApp()
+runApp()
+runApp()
+runApp()
+runApp()
+runApp()
+runApp()
+runApp()
+runApp()
+attend
+do.call(data.frame, attend)
+do.call(rbind, attend)
+do.call("rbind", attend)
+a <- as.character()
+a
+a <- c(a, "b")
+a
+rm(list=ls())
+runApp()
+memb
+memb <- as.character()
+memb
+roles_list
+rm(list=ls())
+runApp()
+memb
+roles_list
+memb <- as.character()
+for(i in 1:length(roles_list)){memb <- c(memb, roles_list[1])}
+memb
+for(i in 1:length(roles_list)){memb <- c(memb, roles_list[i])}
+memb
+rm(list=ls())
+runApp()
+runApp()
+runApp()
+runApp()
+runApp()
+runApp()
+runApp()
+runApp()
+input_list <- paste("input$", roles_list, sep = "")
+input_list
+rm(list=ls())
+runApp()
+runApp()
+runApp()
+runApp()
+length(field_names)
+length(roles_list)
+field_names
+roles_list
+rm(list=ls())
+runApp()
+??digest
+runApp()
+?pageWithSidebar
+runApp()
+runApp()
+install.packages("RODBC")
+install.packages("RODBC")
+?install.packages()
+.libPaths()
+install.packages("/Library/Frameworks/R.framework/Versions/3.1/Resources/library/RODBC_1.3-12.tgz", repos = NULL, type = "source")
+library(RODBC)

@@ -1,13 +1,15 @@
 library(shiny)
-# library(RODBC)
+library(RODBC)
+
+tm <- odbcConnect("database2")
 
 setwd("~/Documents/Toastmasters/secretary_shiny_app")
 
-roster <- read.csv("../Roster/MembershipRosterAug17.csv") ## change this to a database call: all members WHERE status = 'Active'
+roster <- sqlQuery(tm, "SELECT name FROM members WHERE status = 'Active'")
 
-active_member_list <- c("Not Applicable", roster$Name, "guest")
+active_member_list <- roster$name
 
-field_names <- c("Toastmaster", 
+roles_list <- c("Toastmaster", 
 				"Thought_of_the_Day", 
 				"Ah_Counter",
 				"Grammarian", 
@@ -30,7 +32,7 @@ field_names <- c("Toastmaster",
 				"Attendee4", 
 				"Attendee5")
 
-roles_list <- gsub("_", " ", field_names)
+field_names <- gsub("_", " ", roles_list)
 
 awards_list <- c("Best Speaker", 
 				"Best Evaluator", 
@@ -39,10 +41,5 @@ awards_list <- c("Best Speaker",
 
 meetings_to_date <- '2015-08-19' ## change to a pull from the data base on date and format to Aug 17 2015
 
-# input_list <- paste("input$", roles_list, sep = "")
-
-### data capture:
-# attend <- vector("list", length(roles_list))
-# names(attend) <- roles_list
 
 
