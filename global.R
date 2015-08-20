@@ -1,9 +1,9 @@
+# setwd("~/Documents/Toastmasters/secretary_shiny_app")
+
 library(shiny)
 library(RODBC)
 
 tm <- odbcConnect("database2")
-
-setwd("~/Documents/Toastmasters/secretary_shiny_app")
 
 roster <- sqlQuery(tm, "SELECT name FROM members WHERE status = 'Active'")
 
@@ -36,8 +36,10 @@ field_names <- gsub("_", " ", roles_list)
 
 awards_list <- c("Best Speaker", 
 				"Best Evaluator", 
-				"Best Table Topics Response",
-				"Other")
+				"Best Table Topics Response"
+				)
+
+speaker_fields <- sprintf("s%i_dat", 1:5)
 
 meetings_to_date <- '2015-08-19' ## change to a pull from the data base on date and format to Aug 17 2015
 

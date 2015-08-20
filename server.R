@@ -17,31 +17,38 @@ shinyServer(function(input, output){
 				### save attendence info
 				sqlSave(tm, attend, 'meetings', append = TRUE, rownames = FALSE, nastring = NULL)
 
-				### collect speech info
-				# speech_info_list <- lapply(speaker_fields, function(x) x <- input[[x]])
-				# speech_num <- unlist(lapply(speech_info_list, function(x) strsplit(x, ",")[[1]]))
-				# title <- unlist(lapply(speech_info_list, function(x) strsplit(x, ",")[[2]]))
-				# speeches_df <- data.frame(
-				# 	name = c(input$Speaker1, input$Speaker2, input$Speaker3, input$Speaker4, input$Speaker5), 
-				# 	speech_num = speech_num, 
-				# 	title = title,
-				# 	speech_date = input$meeting_date
-				# )
-				# speeches_df <- subset(speeches_df, name != "Not Applicable")
-				# print(speeches_df)
+				## collect speech info
+				speech_info_list <- lapply(speaker_fields, function(x) x <- input[[x]])
+				speech_info_list <- lapply(speech_info_list, function(x){
+					if(x == ""){
+						x <- gsub("", "NA, NA", x)
+					}else{
+						return(x)
+					}
+				})
+				speech_num <- unlist(lapply(speech_info_list, function(x) strsplit(x, ",")[[1]][1]))
+				title <- unlist(lapply(speech_info_list, function(x) strsplit(x, ",")[[1]][2]))
+				speeches_df <- data.frame(
+					name = c(input$Speaker1, input$Speaker2, input$Speaker3, input$Speaker4, input$Speaker5), 
+					speech_num = speech_num, 
+					title = title,
+					speech_date = input$meeting_date
+				)
+				speeches_df <- subset(speeches_df, name != "Not Applicable")
 
-				### save speech info to database
-				# sqlSave(tm, speeches_df, 'speeches', append = TRUE, rownames = FALSE)
+				## save speech info to database
+				sqlSave(tm, speeches_df, 'speeches', append = TRUE, rownames = FALSE)
 
-				# ### collect award info:
-				# awardsdf <- data.frame(
-				# 	award = awards_list, 
-				# 	name = c(input$bs, input$be, input$btt), 
-				# 	date = rep(input$meeting_date, 3)
-				# )
+				### collect award info:
+				awardsdf <- data.frame(
+					award = awards_list, 
+					name = c(input$bs, input$be, input$btt), 
+					award_date = rep(input$meeting_date, 3)
+				)
+				print(awardsdf)
 
-				# ### save award info to datebase
-				# sqlSave(tm, awardsdf, 'awards', append = TRUE, rownames = FALSE)
+				### save award info to datebase
+				sqlSave(tm, awardsdf, 'awards', append = TRUE, rownames = FALSE)
 
 				### run list of sqlsave functions:
 				# lapply(list(ssave1, ssave2, ssave3), f(x))
