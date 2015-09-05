@@ -1,5 +1,5 @@
 # setwd("~/Documents/Toastmasters/secretary_shiny_app")
-
+options(stringsAsFactors = FALSE)
 library(shiny)
 library(RODBC)
 
@@ -7,7 +7,7 @@ source("./include/db_connection.R")
 
 roster <- sqlQuery(tm, "SELECT name FROM members WHERE status = 'Active'")
 
-active_member_list <- roster$name
+active_member_list <- c(" ", roster$name)
 
 roles_list <- c("Toastmaster", 
 				"Thought_of_the_Day", 
