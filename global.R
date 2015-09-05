@@ -1,7 +1,7 @@
 library(shiny)
 library(RODBC)
 
-tm <- odbcConnect("database2")
+source("./include/db_connection.R")
 
 setwd("~/Documents/Toastmasters/secretary_shiny_app")
 
