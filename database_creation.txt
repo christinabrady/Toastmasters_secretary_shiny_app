@@ -1,4 +1,4 @@
-#Database creation:
+r#Database creation:
 
 CREATE TABLE members (
 	name				varchar(80),  
@@ -15,7 +15,7 @@ CREATE TABLE meetings (
 
 CREATE TABLE speeches (
 	name 				varchar(80)  -- foreign key
-	speech_num			int, 
-	title				varchar(80)
+	speech_num			varchar(80, 
+	title				varchar(80),
 	speech_date			date
 );

@@ -7,12 +7,26 @@ shinyUI(dashboardPage(skin = "blue",
 	dashboardHeader(title = "Challenger TM"),
 	dashboardSidebar(
 		sidebarMenu(
+			menuItem("Home", tabName = "viz"),
 			menuItem("Record Attendence", tabName = "datain"), 
-			menuItem("Print Report", tabName = "dataout")
+			menuItem("Attendance Report", tabName = "dataout")
 		)
 	),
 	dashboardBody(
 			tabItems(
+				tabItem("viz", 
+					fluidRow(
+						infoBox("Active Members", active_members, fill =TRUE, color = "light-blue"),
+						column(width = 10, 
+							ggvisOutput('monthly_attend_vis')
+							), 
+						column(width = 10, 
+							ggvisOutput('new_mem_vis')
+							)
+						)	
+
+					),
+
 				tabItem("datain", 
 					fluidRow(
 						column(width = 4,
@@ -45,7 +59,7 @@ shinyUI(dashboardPage(skin = "blue",
 								"After selecing the speakers, please type the speech number and speech title in the format: number, title (i.e. 1, Not all those who wander are lost). If the speech is from an advanced manual, please include an 'A' before the number (i.e. A1).", 
 								selectInput(roles_list[7], field_names[7], active_member_list), 
 								textInput("s1_dat", "Speaker 1's speech number and title"),
-								selectInput(roles_list[8], field_names[8], active_member_list),
+								selectInput(roles_list[8], roles_list[8], active_member_list),
 								textInput("s2_dat", "Speaker 2's speech number and title"),
 								selectInput(roles_list[9], field_names[9], active_member_list), 
 								textInput("s3_dat", "Speaker 3's speech number and title"),
@@ -90,11 +104,19 @@ shinyUI(dashboardPage(skin = "blue",
 					fluidRow(
 						box(
 							title = NULL, width = 4, status = "primary", background = "light-blue",
-							dateInput("report_for", label = meetings_to_date),
-							actionButton("sec_report", label = "Export Secretary's Report") 
+							selectInput("report_for", "Meeting Date", rev(meetings_to_date$ui_format[order(as.Date(meetings_to_date$meeting_date))]))
 						)
+					),
+
+					fluidRow( 
+						box(width = 6, 
+							textOutput("choose_meet_message"),
+							tableOutput("sec_report")
+						) 
 					)
 				)
 			)
 		)
-))
+	
+	)
+)

@@ -1,5 +1,36 @@
 shinyServer(function(input, output){
 	
+	monthly_data <- monthly_attend_prep()
+	monthly_data %>% 
+		ggvis(x = ~date_long, y= ~Freq, stroke = ~factor(member)) %>%
+		layer_lines() %>% 
+		layer_points(size = 1, fill = ~factor(member)) %>%
+		add_axis("x", properties = axis_props(labels=list(angle=45, align = "left")), title = "", 
+			title_offset = 50) %>%
+		add_axis("y", title = "Number of people in attendance") %>%
+		add_legend(c("fill", "stroke"), title = "") %>%
+		add_tooltip(function(data){paste0("Meeting Date:", data$date_long, "<br>", data$`factor(member)`, ": ", data$Freq)}, "hover") %>%
+		add_axis("x", orient = "top", ticks = 0, title = "Meeting Attendance",
+	           properties = axis_props(
+	             axis = list(stroke = "white"),
+	             labels = list(fontSize = 0))) %>%
+		bind_shiny("monthly_attend_vis", "monthly_attend_vis_ui")
+
+	new_mem <- monthly_new_mem_data_prep()
+	new_mem %>%
+			ggvis(x = ~meeting_dateMY, y = ~Freq, fill := "blue", key := ~names) %>%
+			layer_bars(fill.hover = "red") %>%
+			add_axis("x", properties = axis_props(labels=list(angle=45, align = "left")), title = "", 
+				title_offset = 50) %>%
+			add_axis("y", title = "Number of new members", ticks = 5) %>%
+			add_axis("x", orient = "top", ticks = 0, title = "Number of New Members per Month",
+		           properties = axis_props(
+		             axis = list(stroke = "white"),
+		             labels = list(fontSize = 0))) %>%
+			add_tooltip(function(data) data$names) %>%
+			hide_legend("fill") %>%
+			bind_shiny("new_mem_vis", "new_mem_vis_ui")
+
 	observe({
 		if(input$submitbtn == 0){
 			return()
@@ -54,14 +85,17 @@ shinyServer(function(input, output){
 				# lapply(list(ssave1, ssave2, ssave3), f(x))
 			})
 		}	
-
-	# output$sec_report <- downloadHandler(
-	# 	filename = paste("attendance", date_hash, ".txt", sep = ""), 			
-	# 	content = function(file){
-	# 		write.table(attend, file, sep = "\t")
-	# 			},
-	# 	"text/plain"
-	# )
-	
 	})
+	
+	observe({
+		if(is.null(input$report_for)){
+			output$choose_meet_message <- renderText({"Please choose a meeting date."})
+		}else{
+			print(input$report_for)
+			report_qry <- sprintf("SELECT role, name FROM meetings WHERE meeting_date = '%s' AND name != 'guest'", as.Date(input$report_for, "%B %d, %Y"))
+			report_dat <- sqlQuery(tm, report_qry)	
+			output$sec_report <- renderTable(report_dat)
+		}
+	})
+
 })

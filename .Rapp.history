@@ -1,151 +1,81 @@
-setwd("~/Documents/Toastmasters/secretary_shiny_app/")
-roster <- read.csv("../Roster/MembershipRosterAug17.csv")
-roster
-library(shiny)
-?submitButton
-list.files()
-runApp()
-rm(list=ls())
-runApp()
-runApp()
-traceback()
-runApp()
-runApp()
-runApp()
-runApp()
-traceback()
-runApp()
-runApp()
-runApp()
-runApp()
-traceback()
-runApp()
-runApp()
-runApp()
-runApp()
-runApp()
-runApp()
-runApp()
-runApp()
-runApp()
-runApp()
-runApp()
-runApp()
-runApp()
-runApp()
-active_member_list
-runApp()
-runApp()
-runApp()
-runApp()
-runApp()
-runApp()
-runApp()
-runApp()
-runApp()
-roles_list
-runApp()
-runApp()
-runApp()
-runApp()
-runApp()
-runApp()
-runApp()
-runApp()
-runApp()
-runApp()
-runApp()
-runApp()
-runApp()
-runApp()
-?actionButton
-runApp()
-runApp()
-runApp()
-runApp()
-?downloadHandler
-runApp()
-attend <- list()
-names(attend) <- roles_list
-attend <- list(rep("", length(roles_list)))
-attend
-attend[[2]]
-rm(attend)
-attend <- vector("list", length(roles_list))
-attend
-names(attend) <- roles_list
-attend
-runApp()
-rm(list=ls())
-runApp()
-runApp()
-runApp()
-attend
-runApp()
-attend
-runApp()
-runApp()
-runApp()
-runApp()
-runApp()
-runApp()
-runApp()
-runApp()
-runApp()
-runApp()
-attend
-do.call(data.frame, attend)
-do.call(rbind, attend)
-do.call("rbind", attend)
-a <- as.character()
-a
-a <- c(a, "b")
-a
-rm(list=ls())
-runApp()
-memb
-memb <- as.character()
-memb
-roles_list
-rm(list=ls())
-runApp()
-memb
-roles_list
-memb <- as.character()
-for(i in 1:length(roles_list)){memb <- c(memb, roles_list[1])}
-memb
-for(i in 1:length(roles_list)){memb <- c(memb, roles_list[i])}
-memb
-rm(list=ls())
-runApp()
-runApp()
-runApp()
-runApp()
-runApp()
-runApp()
-runApp()
-runApp()
-input_list <- paste("input$", roles_list, sep = "")
-input_list
-rm(list=ls())
-runApp()
-runApp()
-runApp()
-runApp()
-length(field_names)
-length(roles_list)
-field_names
-roles_list
-rm(list=ls())
-runApp()
-??digest
-runApp()
-?pageWithSidebar
-runApp()
-runApp()
-install.packages("RODBC")
-install.packages("RODBC")
-?install.packages()
-.libPaths()
-install.packages("/Library/Frameworks/R.framework/Versions/3.1/Resources/library/RODBC_1.3-12.tgz", repos = NULL, type = "source")
 library(RODBC)
+Sys.getenv("PATH")
+getwd()
+install.packages("RODBC", type = "source")
+library(RODBC)
+uninstall.packages("RODBC")
+remove.packages("RODBC")
+library(RODBC)
+odbcDataSources()
+cb <- odbcConnect("christinabrady")
+cb <- odbcConnect("CB")
+cb <- odbcConnect("database1")
+sqlTables(cb)
+tm <- odbcConnect("toastmasters")
+tm <- odbcConnect("database2")
+sqlTables(tm)
+sqlQuery(tm, )
+sqlQuery(tm, "SELECT * FROM members;")
+attend
+attend <- data.frame(a = letters[1:10], b = c(rep('yes', 3), rep('Not Applicable', 3), rep('no', 4)))
+attend
+attend$b[attend$b=="Not Applicable"] <- NA
+attend
+roster <- sqlQuery(tm, "SELECT name FROM members WHERE status = 'Active'")
+roster
+str(roster)
+roster <- as.character(sqlQuery(tm, "SELECT name FROM members WHERE status = 'Active'"))
+roster
+roster <- sqlQuery(tm, "SELECT name FROM members WHERE status = 'Active'")
+active_member_list <- roster$name
+active_member_list
+str(active_member_list)
+rm(list=ls())
+runApp()
+library(shiny)
+runApp()
+getwd()
+setwd("~/Documents/Toastmasters/secretary_shiny_app")
+runApp()
+speaker_fields <- sprintf("s%i_dat", 1:5)
+speaker_fields
+roles_list
+sqlColumns(tm, 'speeches')
+?data.frame
+?as.data.frame
+test_list <- list()
+test_list[[1]] <- "1, abc"
+test_list[[2]] <- "10, abd"
+test_list[[3]] <- ""
+test_list[[4]] <- "5, cds"
+test_list
+unlist(test_list)
+data.frame(a = 1:5, b = unlist(test_list))
+data.frame(a = 1:4, b = unlist(test_list))
+rm(list = ls())
+library(shiny)
+runApp()
+runApp()
+runApp()
+traceback()
+runApp()
+runApp()
+attend
+runApp()
+attend
+runApp()
+runApp()
+attend
+runApp()
+source("./global.R")
+speaker_fields
+rm(list=ls())
+runApp()
+?gsub
+runApp()
+runApp()
+runApp()
+runApp()
+runApp()
+runApp()
+runApp()
