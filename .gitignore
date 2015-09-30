@@ -1,5 +1,8 @@
+
 Ubuntu14.04_setup.txt
 .DS_store
 .RHistory
 .Rapp.history
 screen_shots
+include/db_connection.R
+.RHistory
