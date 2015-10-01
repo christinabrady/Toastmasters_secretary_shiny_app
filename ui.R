@@ -70,9 +70,9 @@ shinyUI(dashboardPage(skin = "blue",
 							
 							box(
 								title = "Awards", width = NULL, 
-								selectizeInput("bs", awards_list[1], choices = active_member_list, options = list(create = TRUE)),
-								selectizeInput("be", awards_list[2], choices = active_member_list, options = list(create = TRUE)),
-								selectizeInput("btt", awards_list[3], choices = active_member_list, options = list(create = TRUE))
+								selectizeInput("bs", awards_list[1], choices = active_member_list, options = list(create = TRUE), multiple = TRUE),
+								selectizeInput("be", awards_list[2], choices = active_member_list, options = list(create = TRUE), multiple = TRUE),
+								selectizeInput("btt", awards_list[3], choices = active_member_list, options = list(create = TRUE), multiple = TRUE)
 							),
 
 							box(

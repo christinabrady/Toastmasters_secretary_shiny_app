@@ -91,7 +91,12 @@ shinyServer(function(input, output, session){
 									name = judges
 									)
 
-				guests <- as.numeric(input$guests)
+				if(length(input$guest) == 0){
+					guests <- 0
+				}else{
+					guests <- as.numeric(input$guest)
+				}
+
 				guestsdf <- data.frame(meeting_date = rep(input$meeting_date, guests), 
 										role = rep("guest", guests), 
 										name = rep("guest", guests)
@@ -100,13 +105,14 @@ shinyServer(function(input, output, session){
 				meetingdf <- rbind(rolesdf, speakersdf, attenddf, contestchairdf, judgesdf, guestsdf)
 
 				## save attendence info
-				sqlSave(tm, subset(meetingdf, name != ""), 'meetings', append = TRUE, rownames = FALSE)
+				print(subset(meetingdf, name != ""))
+				# sqlSave(tm, subset(meetingdf, name != ""), 'meetings', append = TRUE, rownames = FALSE)
 
 				## collect speech info
-				speeches <- input$speechesin
+				speeches <- unlist(strsplit(input$speechesin, ","))
 				speechesdf <- data.frame(name = speakers, 
 										speech_number = speeches, 
-										date = rep(meeting_date, length(speeches))
+										date = rep(input$meeting_date, length(speeches))
 										)
 				print(speechesdf)
 				# speech_info_list <- lapply(speaker_fields, function(x) x <- input[[x]])
@@ -137,7 +143,7 @@ shinyServer(function(input, output, session){
 				award_date_rep <- length(bs) + length(be) + length(btt)
 				awardsdf <- data.frame(award = c(rep("best_speaker", length(bs), rep("best_eavluator", length(be)), rep("best_tt", length(btt)))), 
 											name = c(bs, be, btt),
-											award_date = rep(input$meeting_date, awar_date_rep)
+											award_date = rep(input$meeting_date, award_date_rep)
 									)
 				print(awardsdf)
 				### save award info to datebase
