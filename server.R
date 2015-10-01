@@ -11,6 +11,11 @@ shinyServer(function(input, output, session){
 	updateSelectizeInput(session, roles_list[8], server = T, choices = active_member_list, selected = NULL)
 	updateSelectizeInput(session, roles_list[9], server = T, choices = active_member_list, selected = NULL)
 	updateSelectizeInput(session, roles_list[10], server = T, choices = active_member_list, selected = NULL)
+	updateSelectizeInput(session, roles_list[11], server = T, choices = active_member_list, selected = NULL)
+	updateSelectizeInput(session, roles_list[12], server = T, choices = active_member_list, selected = NULL)
+	updateSelectizeInput(session, awards_list[1], server = T, choices = active_member_list, selected = NULL)
+	updateSelectizeInput(session, awards_list[2], server = T, choices = active_member_list, selected = NULL)
+	updateSelectizeInput(session, awards_list[3], server = T, choices = active_member_list, selected = NULL)
 
 
 	##### visualizations
@@ -55,44 +60,86 @@ shinyServer(function(input, output, session){
 				### collect attendence info
 				memb <- unlist(lapply(roles_list[1:7], function(x) x <- input[[x]]))
 
-				roles <- data.frame(meeting_date = rep(input$meeting_date, 1:7),
-									role = roles_list[1:7, 
+				rolesdf <- data.frame(meeting_date = rep(input$meeting_date, 7),
+									role = roles_list[1:7], 
 									name = memb)
 
+				speakers <- input[[roles_list[8]]]
+				speakersdf <- data.frame(meeting_date = rep(input$meeting_date, length(speakers)), 
+									role = rep("speaker", length(speakers)), 
+									name = speakers
+									)
+				eval <- input[[roles_list[9]]]
+				evaldf <- data.frame(meeting_date = rep(input$meeting_date, length(eval)), 
+									role = rep("evaluator", length(eval)), 
+									name = eval
+									)
+				attend <- input[[roles_list[9]]]
+				attenddf <- data.frame(meeting_date = rep(input$meeting_date, length(attend)), 
+									role = rep("attendee", length(attend)), 
+									name = attend
+									)
 
-				### save attendence info
-				# sqlSave(tm, attend, 'meetings', append = TRUE, rownames = FALSE, nastring = NULL)
+				contestchairdf <- data.frame(meeting_date = input$meeting_date, 
+									role = "contest_chair", 
+									name = input[[roles_list[11]]]
+									)
+
+				judges <- input[[roles_list[12]]]
+				judgesdf <- data.frame(meeting_date = rep(input$meeting_date, length(judges)), 
+									role = rep("contest_judge", length(judges)), 
+									name = judges
+									)
+
+				guests <- as.numeric(input$guests)
+				guestsdf <- data.frame(meeting_date = rep(input$meeting_date, guests), 
+										role = rep("guest", guests), 
+										name = rep("guest", guests)
+										)	
+
+				meetingdf <- rbind(rolesdf, speakersdf, attenddf, contestchairdf, judgesdf, guestsdf)
+
+				## save attendence info
+				sqlSave(tm, subset(meetingdf, name != ""), 'meetings', append = TRUE, rownames = FALSE)
 
 				## collect speech info
-				speech_info_list <- lapply(speaker_fields, function(x) x <- input[[x]])
-				speech_info_list <- lapply(speech_info_list, function(x){
-					if(x == ""){
-						x <- gsub("", "NA, NA", x)
-					}else{
-						return(x)
-					}
-				})
-				speech_num <- unlist(lapply(speech_info_list, function(x) strsplit(x, ",")[[1]][1]))
-				title <- unlist(lapply(speech_info_list, function(x) strsplit(x, ",")[[1]][2]))
-				speeches_df <- data.frame(
-					name = c(input$Speaker1, input$Speaker2, input$Speaker3, input$Speaker4, input$Speaker5), 
-					speech_num = speech_num, 
-					title = title,
-					speech_date = input$meeting_date
-				)
-				speeches_df <- subset(speeches_df, name != "Not Applicable")
+				speeches <- input$speechesin
+				speechesdf <- data.frame(name = speakers, 
+										speech_number = speeches, 
+										date = rep(meeting_date, length(speeches))
+										)
+				print(speechesdf)
+				# speech_info_list <- lapply(speaker_fields, function(x) x <- input[[x]])
+				# speech_info_list <- lapply(speech_info_list, function(x){
+				# 	if(x == ""){
+				# 		x <- gsub("", "NA, NA", x)
+				# 	}else{
+				# 		return(x)
+				# 	}
+				# })
+				# speech_num <- unlist(lapply(speech_info_list, function(x) strsplit(x, ",")[[1]][1]))
+				# title <- unlist(lapply(speech_info_list, function(x) strsplit(x, ",")[[1]][2]))
+				# speeches_df <- data.frame(
+				# 	name = c(input$Speaker1, input$Speaker2, input$Speaker3, input$Speaker4, input$Speaker5), 
+				# 	speech_num = speech_num, 
+				# 	title = title,
+				# 	speech_date = input$meeting_date
+				# )
+				# speeches_df <- subset(speeches_df, name != "Not Applicable")
 
 				## save speech info to database
 				# sqlSave(tm, speeches_df, 'speeches', append = TRUE, rownames = FALSE)
 
-				### collect award info:
-				awardsdf <- data.frame(
-					award = awards_list, 
-					name = c(input$bs, input$be, input$btt), 
-					award_date = rep(input$meeting_date, 3)
-				)
+				## collect award info:
+				bs <- input[[awards_list[1]]]
+				be <- input[[awards_list[2]]]
+				btt <- input[[awards_list[3]]]
+				award_date_rep <- length(bs) + length(be) + length(btt)
+				awardsdf <- data.frame(award = c(rep("best_speaker", length(bs), rep("best_eavluator", length(be)), rep("best_tt", length(btt)))), 
+											name = c(bs, be, btt),
+											award_date = rep(input$meeting_date, awar_date_rep)
+									)
 				print(awardsdf)
-
 				### save award info to datebase
 				# sqlSave(tm, awardsdf, 'awards', append = TRUE, rownames = FALSE)
 

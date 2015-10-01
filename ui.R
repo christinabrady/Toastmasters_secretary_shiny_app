@@ -70,14 +70,20 @@ shinyUI(dashboardPage(skin = "blue",
 							
 							box(
 								title = "Awards", width = NULL, 
-								selectizeInput("bs", awards_list[1], choices = NULL),
-								selectizeInput("be", awards_list[2], choices = NULL),
-								selectizeInput("btt", awards_list[3], choices = NULL)
+								selectizeInput("bs", awards_list[1], choices = active_member_list, options = list(create = TRUE)),
+								selectizeInput("be", awards_list[2], choices = active_member_list, options = list(create = TRUE)),
+								selectizeInput("btt", awards_list[3], choices = active_member_list, options = list(create = TRUE))
+							),
+
+							box(
+								title = "Contests", width = NULL, 
+								selectizeInput(roles_list[11], field_names[11], choices = NULL),
+								selectizeInput(roles_list[12], field_names[12], choices = NULL, multiple = TRUE)
 							),
 
 							box(width = NULL, 
 								title = "Guests", 
-								textInput("guests", "How many guests attended?")
+								textInput("guests", "How many guests attended? (If no guests attended, please input 0.")
 							),
 
 
