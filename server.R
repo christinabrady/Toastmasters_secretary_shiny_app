@@ -1,5 +1,19 @@
-shinyServer(function(input, output){
+shinyServer(function(input, output, session){
 	
+	##### update selectize options:
+	updateSelectizeInput(session, roles_list[1], server = T, choices = active_member_list, selected = NULL)
+	updateSelectizeInput(session, roles_list[2], server = T, choices = active_member_list, selected = NULL)
+	updateSelectizeInput(session, roles_list[3], server = T, choices = active_member_list, selected = NULL)
+	updateSelectizeInput(session, roles_list[4], server = T, choices = active_member_list, selected = NULL)
+	updateSelectizeInput(session, roles_list[5], server = T, choices = active_member_list, selected = NULL)
+	updateSelectizeInput(session, roles_list[6], server = T, choices = active_member_list, selected = NULL)
+	updateSelectizeInput(session, roles_list[7], server = T, choices = active_member_list, selected = NULL)
+	updateSelectizeInput(session, roles_list[8], server = T, choices = active_member_list, selected = NULL)
+	updateSelectizeInput(session, roles_list[9], server = T, choices = active_member_list, selected = NULL)
+	updateSelectizeInput(session, roles_list[10], server = T, choices = active_member_list, selected = NULL)
+
+
+	##### visualizations
 	monthly_data <- monthly_attend_prep()
 	monthly_data %>% 
 		ggvis(x = ~date_long, y= ~Freq, stroke = ~factor(member)) %>%
@@ -31,22 +45,23 @@ shinyServer(function(input, output){
 			hide_legend("fill") %>%
 			bind_shiny("new_mem_vis", "new_mem_vis_ui")
 
-	observe({
+	
+		observe({
 		if(input$submitbtn == 0){
 			return()
 		} else {
 			### read info into a data frame
 			isolate({
 				### collect attendence info
-				memb <- unlist(lapply(roles_list, function(x) x <- input[[x]]))
+				memb <- unlist(lapply(roles_list[1:7], function(x) x <- input[[x]]))
 
-				attend <- data.frame(meeting_date = rep(input$meeting_date, length(roles_list)),
-									role = roles_list, 
+				roles <- data.frame(meeting_date = rep(input$meeting_date, 1:7),
+									role = roles_list[1:7, 
 									name = memb)
-				# attend$member[attend$member == "Not Applicable"] <- NA 
+
 
 				### save attendence info
-				sqlSave(tm, attend, 'meetings', append = TRUE, rownames = FALSE, nastring = NULL)
+				# sqlSave(tm, attend, 'meetings', append = TRUE, rownames = FALSE, nastring = NULL)
 
 				## collect speech info
 				speech_info_list <- lapply(speaker_fields, function(x) x <- input[[x]])
@@ -68,7 +83,7 @@ shinyServer(function(input, output){
 				speeches_df <- subset(speeches_df, name != "Not Applicable")
 
 				## save speech info to database
-				sqlSave(tm, speeches_df, 'speeches', append = TRUE, rownames = FALSE)
+				# sqlSave(tm, speeches_df, 'speeches', append = TRUE, rownames = FALSE)
 
 				### collect award info:
 				awardsdf <- data.frame(
@@ -79,7 +94,7 @@ shinyServer(function(input, output){
 				print(awardsdf)
 
 				### save award info to datebase
-				sqlSave(tm, awardsdf, 'awards', append = TRUE, rownames = FALSE)
+				# sqlSave(tm, awardsdf, 'awards', append = TRUE, rownames = FALSE)
 
 				### run list of sqlsave functions:
 				# lapply(list(ssave1, ssave2, ssave3), f(x))
@@ -91,7 +106,6 @@ shinyServer(function(input, output){
 		if(is.null(input$report_for)){
 			output$choose_meet_message <- renderText({"Please choose a meeting date."})
 		}else{
-			print(input$report_for)
 			report_qry <- sprintf("SELECT role, name FROM meetings WHERE meeting_date = '%s' AND name != 'guest'", as.Date(input$report_for, "%B %d, %Y"))
 			report_dat <- sqlQuery(tm, report_qry)	
 			output$sec_report <- renderTable(report_dat)

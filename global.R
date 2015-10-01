@@ -16,23 +16,11 @@ roles_list <- c("Toastmaster",
 				"Ah_Counter",
 				"Grammarian", 
 				"Timer/Vote_Counter",
-				"General_Evaluator", 
-				"Speaker1", 
-				"Speaker2", 
-				"Speaker3", 
-				"Speaker4", 
-				"Speaker5",
-				"Evaluator1",
-				"Evaluator2",
-				"Evaluator3",
-				"Evaluator4",
-				"Evaluator5",
-				"Table_Topics_Master", 
-				"Attendee1", 
-				"Attendee2", 
-				"Attendee3", 
-				"Attendee4", 
-				"Attendee5")
+				"General_Evaluator",
+				"Table_Topics_Master",  
+				"Speaker", 
+				"Evaluator",	
+				"Attendee")
 
 field_names <- gsub("_", " ", roles_list)
 
