@@ -28,7 +28,7 @@ shinyServer(function(input, output, session){
 			title_offset = 50) %>%
 		add_axis("y", title = "Number of people in attendance") %>%
 		add_legend(c("fill", "stroke"), title = "") %>%
-		add_tooltip(function(data){paste0("Meeting Date:", data$date_long, "<br>", data$`factor(member)`, ": ", data$Freq)}, "hover") %>%
+		add_tooltip(function(data){paste0(data$date_long, "<br>", data$`factor(member)`, ": ", data$Freq)}, "hover") %>%
 		add_axis("x", orient = "top", ticks = 0, title = "Meeting Attendance",
 	           properties = axis_props(
 	             axis = list(stroke = "white"),
@@ -115,28 +115,8 @@ shinyServer(function(input, output, session){
 										date = rep(input$meeting_date, length(speeches))
 										)
 				print(speechesdf)
-				# speech_info_list <- lapply(speaker_fields, function(x) x <- input[[x]])
-				# speech_info_list <- lapply(speech_info_list, function(x){
-				# 	if(x == ""){
-				# 		x <- gsub("", "NA, NA", x)
-				# 	}else{
-				# 		return(x)
-				# 	}
-				# })
-				# speech_num <- unlist(lapply(speech_info_list, function(x) strsplit(x, ",")[[1]][1]))
-				# title <- unlist(lapply(speech_info_list, function(x) strsplit(x, ",")[[1]][2]))
-				# speeches_df <- data.frame(
-				# 	name = c(input$Speaker1, input$Speaker2, input$Speaker3, input$Speaker4, input$Speaker5), 
-				# 	speech_num = speech_num, 
-				# 	title = title,
-				# 	speech_date = input$meeting_date
-				# )
-				# speeches_df <- subset(speeches_df, name != "Not Applicable")
-
-				## save speech info to database
-				# sqlSave(tm, speeches_df, 'speeches', append = TRUE, rownames = FALSE)
-
-				## collect award info:
+				
+				## collect award info:`
 				bs <- input[[awards_list[1]]]
 				be <- input[[awards_list[2]]]
 				btt <- input[[awards_list[3]]]

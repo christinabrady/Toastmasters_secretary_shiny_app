@@ -31,11 +31,11 @@ shinyUI(dashboardPage(skin = "blue",
 					fluidRow(
 						column(width = 4,
 							
-							box(width = NULL, 
-								dateInput("meeting_date", label = "Date of Meeting")
+							box(width = NULL, title = "Meeting Date", solidHeader = TRUE, status = "primary", 
+								dateInput("meeting_date", label = "")
 								),
 							
-							box(width = NULL, 
+							box(width = NULL, solidHeader = TRUE, status = "primary",
 								title = "Meeting Roles", 
 								selectizeInput(roles_list[1], field_names[1], choices = NULL),
 								selectizeInput(roles_list[2], field_names[2], choices = NULL),
@@ -48,20 +48,20 @@ shinyUI(dashboardPage(skin = "blue",
 						),
 
 						column(width = 4, 
-							box(width = NULL, 
+							box(width = NULL, solidHeader = TRUE, status = "primary",
 								title = "Speakers",
 								selectizeInput(roles_list[8], field_names[8], choices = NULL, multiple = TRUE),
 								textInput("speechesin", "What project number did each speaker complete?")
 								),
 
-							box(width = NULL, 
+							box(width = NULL, solidHeader = TRUE, status = "primary",
 								title = "Evaluators", 
-								selectizeInput(roles_list[9], field_names[9], choices = NULL, multiple = TRUE)
+								selectizeInput(roles_list[9], "", choices = NULL, multiple = TRUE)
 								),
 
-							box(width = NULL, 
+							box(width = NULL, solidHeader = TRUE, status = "primary",
 								title = "Attendees that did not have roles:",
-								selectizeInput(roles_list[10], field_names[10], choices = NULL, multiple = TRUE)
+								selectizeInput(roles_list[10], "", choices = NULL, multiple = TRUE)
 								)
 
 						),
@@ -69,26 +69,27 @@ shinyUI(dashboardPage(skin = "blue",
 						column(width = 4, 
 							
 							box(
-								title = "Awards", width = NULL, 
+								title = "Awards", width = NULL, solidHeader = TRUE, status = "primary",
 								selectizeInput("bs", awards_list[1], choices = active_member_list, options = list(create = TRUE), multiple = TRUE),
 								selectizeInput("be", awards_list[2], choices = active_member_list, options = list(create = TRUE), multiple = TRUE),
 								selectizeInput("btt", awards_list[3], choices = active_member_list, options = list(create = TRUE), multiple = TRUE)
 							),
 
 							box(
-								title = "Contests", width = NULL, 
+								title = "Contests", width = NULL, solidHeader = TRUE, status = "primary",
 								selectizeInput(roles_list[11], field_names[11], choices = NULL),
 								selectizeInput(roles_list[12], field_names[12], choices = NULL, multiple = TRUE)
 							),
 
-							box(width = NULL, 
+							box(width = NULL, solidHeader = TRUE, status = "primary",
 								title = "Guests", 
-								textInput("guests", "How many guests attended? (If no guests attended, please input 0.")
+								textInput("guests", "How many guests attended? (If no guests attended, please input 0.)")
+								
 							),
 
 
 							box(
-								title = NULL, width = NULL, background = "blue", 
+								title = NULL, width = NULL, background = "light-blue", solidHeader = TRUE, 
 								actionButton(inputId = "submitbtn", label = "Submit")
 							)
 						)
