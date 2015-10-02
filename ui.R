@@ -37,31 +37,31 @@ shinyUI(dashboardPage(skin = "blue",
 							
 							box(width = NULL, solidHeader = TRUE, status = "primary",
 								title = "Meeting Roles", 
-								selectizeInput(roles_list[1], field_names[1], choices = NULL),
-								selectizeInput(roles_list[2], field_names[2], choices = NULL),
-								selectizeInput(roles_list[3], field_names[3], choices = NULL),
-								selectizeInput(roles_list[4], field_names[4], choices = NULL),
-								selectizeInput(roles_list[5], field_names[5], choices = NULL),
-								selectizeInput(roles_list[6], field_names[6], choices = NULL),
-								selectizeInput(roles_list[7], field_names[7], choices = NULL)
+								selectizeInput(roles_list[1], field_names[1], choices = NULL, options = list(create = TRUE)),
+								selectizeInput(roles_list[2], field_names[2], choices = NULL, options = list(create = TRUE)),
+								selectizeInput(roles_list[3], field_names[3], choices = NULL, options = list(create = TRUE)),
+								selectizeInput(roles_list[4], field_names[4], choices = NULL, options = list(create = TRUE)),
+								selectizeInput(roles_list[5], field_names[5], choices = NULL, options = list(create = TRUE)),
+								selectizeInput(roles_list[6], field_names[6], choices = NULL, options = list(create = TRUE)),
+								selectizeInput(roles_list[7], field_names[7], choices = NULL, options = list(create = TRUE))
 								)
 						),
 
 						column(width = 4, 
 							box(width = NULL, solidHeader = TRUE, status = "primary",
 								title = "Speakers",
-								selectizeInput(roles_list[8], field_names[8], choices = NULL, multiple = TRUE),
+								selectizeInput(roles_list[8], field_names[8], choices = NULL, multiple = TRUE, options = list(create = TRUE)),
 								textInput("speechesin", "What project number did each speaker complete?")
 								),
 
 							box(width = NULL, solidHeader = TRUE, status = "primary",
 								title = "Evaluators", 
-								selectizeInput(roles_list[9], "", choices = NULL, multiple = TRUE)
+								selectizeInput(roles_list[9], "", choices = NULL, multiple = TRUE, options = list(create = TRUE))
 								),
 
 							box(width = NULL, solidHeader = TRUE, status = "primary",
 								title = "Attendees that did not have roles:",
-								selectizeInput(roles_list[10], "", choices = NULL, multiple = TRUE)
+								selectizeInput(roles_list[10], "", choices = NULL, multiple = TRUE, options = list(create = TRUE))
 								)
 
 						),

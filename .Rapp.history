@@ -1,81 +1,316 @@
-library(RODBC)
-Sys.getenv("PATH")
+MYmemdf
+MYmemdf$meeting_dateMY$rownames(MYmemdf)
+MYmemdf$meeting_dateMY <- rownames(MYmemdf)
+MYmemdf
+MYmemdf <- do.call(rbind, MYmem)
+rownames(MYmemdf)
+MYmemdf$meeting_dateMY <- unlist(rownames(MYmemdf))
+MYmemdf
+MYmemdf <- do.call(rbind, MYmem)
+str(MYmemdf)
+as.data.frame(MYmem)
+str(as.data.frame(MYmem))
+stack(MYmem)
+MYmemdf <- stack(MYmem)#
+colnames(MYmemdf) <- c("names", "meeting_dateMY")#
+#
+plottingdf <- merge(monthly_new_mem, MYmemdf)
+plottingdf
+str(plottingdf)
+plottingdf %>%#
+	ggvis(x = ~meeting_dateMY, y = ~Freq, fill := "blue", key := ~meeting_dateMY) %>%#
+	layer_bars(fill.hover = "red") %>%#
+	add_axis("x", properties = axis_props(labels=list(angle=45, align = "left")), title = "", #
+		title_offset = 50) %>%#
+	add_axis("y", title = "Number of new members", ticks = 5) %>%#
+	add_axis("x", orient = "top", ticks = 0, title = "Number of New Members per Month",#
+           properties = axis_props(#
+             axis = list(stroke = "white"),#
+             labels = list(fontSize = 0))) %>%#
+	add_tooltip(function(data) data$names)
+plottingdf$id <- 1:nrow(plottingdf)
+plottingdf %>%#
+	ggvis(x = ~meeting_dateMY, y = ~Freq, fill := "blue", key := ~id) %>%#
+	layer_bars(fill.hover = "red") %>%#
+	add_axis("x", properties = axis_props(labels=list(angle=45, align = "left")), title = "", #
+		title_offset = 50) %>%#
+	add_axis("y", title = "Number of new members", ticks = 5) %>%#
+	add_axis("x", orient = "top", ticks = 0, title = "Number of New Members per Month",#
+           properties = axis_props(#
+             axis = list(stroke = "white"),#
+             labels = list(fontSize = 0))) %>%#
+	add_tooltip(function(x){#
+		plottingdf$names[plottingdf$id == x$id]#
+		})
+plottingdf$id
+plottingdf %>%#
+	ggvis(x = ~meeting_dateMY, y = ~Freq, fill := "blue", key := ~names) %>%#
+	layer_bars(fill.hover = "red") %>%#
+	add_axis("x", properties = axis_props(labels=list(angle=45, align = "left")), title = "", #
+		title_offset = 50) %>%#
+	add_axis("y", title = "Number of new members", ticks = 5) %>%#
+	add_axis("x", orient = "top", ticks = 0, title = "Number of New Members per Month",#
+           properties = axis_props(#
+             axis = list(stroke = "white"),#
+             labels = list(fontSize = 0))) %>%#
+	add_tooltip(function(data) data$names)
+plottingdf %>%#
+	ggvis(x = ~meeting_dateMY, y = ~Freq, fill := "blue", key := ~names) %>%#
+	layer_bars(fill.hover = "red") %>%#
+	add_axis("x", properties = axis_props(labels=list(angle=45, align = "left")), title = "", #
+		title_offset = 50) %>%#
+	add_axis("y", title = "Number of new members", ticks = 5) %>%#
+	add_axis("x", orient = "top", ticks = 0, title = "Number of New Members per Month",#
+           properties = axis_props(#
+             axis = list(stroke = "white"),#
+             labels = list(fontSize = 0))) %>%#
+	add_tooltip(function(data) data$names) %>#
+	hide_legend("fill")
+plottingdf %>%#
+	ggvis(x = ~meeting_dateMY, y = ~Freq, fill := "blue", key := ~names) %>%#
+	layer_bars(fill.hover = "red") %>%#
+	add_axis("x", properties = axis_props(labels=list(angle=45, align = "left")), title = "", #
+		title_offset = 50) %>%#
+	add_axis("y", title = "Number of new members", ticks = 5) %>%#
+	add_axis("x", orient = "top", ticks = 0, title = "Number of New Members per Month",#
+           properties = axis_props(#
+             axis = list(stroke = "white"),#
+             labels = list(fontSize = 0))) %>%#
+	add_tooltip(function(data) data$names) %>%#
+	hide_legend("fill")
 getwd()
-install.packages("RODBC", type = "source")
-library(RODBC)
-uninstall.packages("RODBC")
-remove.packages("RODBC")
-library(RODBC)
-odbcDataSources()
-cb <- odbcConnect("christinabrady")
-cb <- odbcConnect("CB")
-cb <- odbcConnect("database1")
-sqlTables(cb)
-tm <- odbcConnect("toastmasters")
-tm <- odbcConnect("database2")
-sqlTables(tm)
-sqlQuery(tm, )
-sqlQuery(tm, "SELECT * FROM members;")
-attend
-attend <- data.frame(a = letters[1:10], b = c(rep('yes', 3), rep('Not Applicable', 3), rep('no', 4)))
-attend
-attend$b[attend$b=="Not Applicable"] <- NA
-attend
-roster <- sqlQuery(tm, "SELECT name FROM members WHERE status = 'Active'")
-roster
-str(roster)
-roster <- as.character(sqlQuery(tm, "SELECT name FROM members WHERE status = 'Active'"))
-roster
-roster <- sqlQuery(tm, "SELECT name FROM members WHERE status = 'Active'")
-active_member_list <- roster$name
+setwd("../secretary_shiny_app/")
+library(shiny)
+libary(shinydashboard)
+library(shinydashboard)
+install.packages("shinydashboard")
+library(shinydashboard)
+runApp()
+runApp()
+runApp()
+runApp()
+runApp()
+runApp()
+runApp()
+runApp()
+active_members <- sqlQuery(tm, "SELECT COUNT(*) FROM members WHERE member_status = 'Active'")
+active_members
+sqlColumns(tm, 'members')
+active_members <- sqlQuery(tm, "SELECT COUNT(*) FROM members WHERE status = 'Active'")
+active_members
+str(active_members)
+active_members <- as.character(sqlQuery(tm, "SELECT COUNT(*) FROM members WHERE status = 'Active'"))
+str(active_members)
+runApp()
+runApp()
+runApp()
+runApp()
+runApp()
+runApp()
+runApp()
+runApp()
+report <- sqlQuery(tm, "SELECT * FROM meetings WHERE meeting_date = '2015-03-18'")
+head(report)
+report <- sqlQuery(tm, "SELECT role, name FROM meetings WHERE meeting_date = '2015-03-18'")
+report
+report <- sqlQuery(tm, "SELECT role, name FROM meetings WHERE meeting_date = '2015-03-18' AND name != "guest")
+report <- sqlQuery(tm, "SELECT role, name FROM meetings WHERE meeting_date = '2015-03-18' AND name != 'guest'")
+report
+xtable(report)
+install.packages(xtable)
+install.packages("xtable")
+xtable(report)
+library(xtable)
+xtable(report)
+runApp()
+runApp()
+runApp()
+runApp()
+runApp()
+runApp()
+runApp()
+runApp()
+a <- sqlQuery(tm, "SELECT DISTINT meeting_date FROM meetings")
+a
+a <- sqlQuery(tm, "SELECT DISTINCT meeting_date FROM meetings")
+a
+str(a)
+a$ui_format <- format(as.Date(a$meeting_date), "%B %d, %Y")
+a
+runApp()
+?selectInput
+runApp()
+runApp()
+runApp()
+runApp()
+runApp()
+?order
+runApp()
+runApp()
+runApp()
+runApp()
+runApp()
+?textInput
+runApp()
+runApp()
+sqlQuery(tm, "SELECT name FROM members WHERE status = 'Active'")
+runApp()
+runApp()
+runApp()
 active_member_list
-str(active_member_list)
+active_member_list[grep("Chris", active_member_list)]
+active_member_list[grep("Chris", active_member_list)]
+runApp()
+?textOutput
+runApp()
+runApp()
+runApp()
+runApp()
+runApp()
+runApp()
+runApp()
+runApp()
+runApp()
+runApp()
+runApp()
+runApp()
+runApp()
+runApp()
+runApp()
+runApp()
+runApp()
+runApp()
+runApp()
+rm(list=ls())
+gc()
+runApp()
+closeConnection(tm)
+odbcClose(tm)
+runApp()
+odbcClose(tm)
+runApp()
+runApp()
+runApp()
+odbcClose(tm)
 rm(list=ls())
 runApp()
-library(shiny)
 runApp()
-getwd()
-setwd("~/Documents/Toastmasters/secretary_shiny_app")
+rm(list=ls())
 runApp()
-speaker_fields <- sprintf("s%i_dat", 1:5)
-speaker_fields
-roles_list
-sqlColumns(tm, 'speeches')
-?data.frame
-?as.data.frame
-test_list <- list()
-test_list[[1]] <- "1, abc"
-test_list[[2]] <- "10, abd"
-test_list[[3]] <- ""
-test_list[[4]] <- "5, cds"
-test_list
-unlist(test_list)
-data.frame(a = 1:5, b = unlist(test_list))
-data.frame(a = 1:4, b = unlist(test_list))
-rm(list = ls())
-library(shiny)
+rm(list=ls())
+rm(list=ls())
 runApp()
 runApp()
+runApp()
+rm(list=ls())
+runApp()
+roles_list <- c("Toastmaster", #
+				"Thought_of_the_Day", #
+				"Ah_Counter",#
+				"Grammarian", #
+				"Timer/Vote_Counter",#
+				"General_Evaluator",#
+				"Table_Topics_Master",  #
+				"Speaker", #
+				"Evaluator",	#
+				"Attendee")
+roles_list[1]
+roles_list[2]
+roles_list[3]
+roles_list[4]
+roles_list[5]
+roles_list[6]
+roles_list[7]
+roles_list[8]
+roles_list[9]
+roles_list[10]
+rm(list=ls())
+runApp()
+odbcClose(tm)
+rm(list=ls())
+runApp()
+odbcClose(tm)
+rm(list=ls())
+runApp()
+runApp()
+runApp()
+runApp()
+runApp()
+runApp()
+runApp()
+runApp()
+odbcClose(tm)
+rm(list=ls())
+runApp()
+runApp()
+runApp()
+rm(list=ls())
+odbcClose(tm)
+odbcClose(tm)
+runApp()
+odbcClose(tm)
+runApp()
+runApp()
+runApp()
+runApp()
+sqlTables(tm)
+sqlColumns(tm, "awards")
+sqlColumns(tm, "speeches")
+odbcClose(tm)
+odbcClose(tm)
+runApp()
+runApp()
+odbcClose(tm)
+rm(list=ls())
+runApp()
+odbcClose(tm)
+rm(list=ls())
+runApp()
+odbcClose(tm)
+runApp()
+odbcClose(tm)
+runApp()
+odbcClose(tm)
+rm(list=ls())
 runApp()
 traceback()
+odbcClose(tm)
 runApp()
-runApp()
-attend
-runApp()
-attend
-runApp()
-runApp()
-attend
-runApp()
-source("./global.R")
-speaker_fields
+odbcClose(tm)
 rm(list=ls())
 runApp()
-?gsub
+odbcClose(tm)
+runApp()
+odbcClose(tm)
+rm(list=ls())
 runApp()
 runApp()
+odbcClose(tm)
+runApp()
+odbcClose(tm)
+rm(list=ls())
+runApp()
+odbcClose(tm)
+rm(list=ls())
 runApp()
 runApp()
+odbcClose(tm)
 runApp()
 runApp()
+odbcClose(tm)
+runApp()
+odbcClose(tm)
+rm(list=ls())
+runApp()
+odbcClose(tm)
+rm(list=ls())
+runApp()
+odbcClose(tm)
+rm(list=ls())
+runApp()
+odbcClose(tm)
+rm(list=ls())
+runApp()
+odbcClose(tm)
+rm(list=ls())
 runApp()

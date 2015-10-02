@@ -108,6 +108,12 @@ shinyServer(function(input, output, session){
 				print(subset(meetingdf, name != ""))
 				# sqlSave(tm, subset(meetingdf, name != ""), 'meetings', append = TRUE, rownames = FALSE)
 
+				not_in_db <- setdiff(meetingdf$name, active_member_list)
+				if(length(not_in_db) > 0){
+					add_mem <- data.frame(name = not_in_db, member_since = rep(input$meeting_date, length(not_in_db)), status = rep(guest, length(not_in_db)))
+					sqlSave(tm, add_mem, "members", append = TRUE, rownames = FALSE)
+				}
+
 				## collect speech info
 				speeches <- unlist(strsplit(input$speechesin, ","))
 				speechesdf <- data.frame(name = speakers, 
