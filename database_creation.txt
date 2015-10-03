@@ -1,4 +1,6 @@
-r#Database creation:
+deprecated: created databases from R using dataframes and sqlSave()
+
+#Database creation:
 
 CREATE TABLE members (
 	name				varchar(80),  
@@ -19,3 +21,4 @@ CREATE TABLE speeches (
 	title				varchar(80),
 	speech_date			date
 );
+

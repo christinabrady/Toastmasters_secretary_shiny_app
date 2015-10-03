@@ -31,12 +31,10 @@ awards_list <- c("Best Speaker",
 				"Best Table Topics Response"
 				)
 
-speaker_fields <- sprintf("s%i_dat", 1:5)
-
 meetings_to_date <- sqlQuery(tm, "SELECT DISTINCT meeting_date FROM meetings")
 meetings_to_date$ui_format <- format(as.Date(meetings_to_date$meeting_date), "%B %d, %Y")
 
-
+memdb <- sqlQuery(tm, "SELECT name FROM members")
 
 ### data prep:
 
@@ -87,3 +85,14 @@ monthly_new_mem_data_prep <- function(){
 
 }
 
+replace_null <- function(x){
+	if(is.list(x)){
+		x <- lapply(x, function(y) replace_null(y))
+		return(x)
+	}
+	if(is.null(x)){
+		x <- " "
+	}else{
+		return(x)
+	}
+}
