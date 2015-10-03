@@ -149,14 +149,15 @@ shinyServer(function(input, output, session){
 				be <- input$be
 				btt <- input$btt
 
-				award_date_rep <- length(bs) + length(be) + length(btt)
-
 				awardlist <- replace_null(list(bs, be, btt))
 
-				awardsdf <- data.frame(award = c(rep("best_speaker", length(bs)), rep("best_eavluator", length(be)), rep("best_tt", length(btt))), 
+				award_date_rep <- length(awardlist[[1]]) + length(awardlist[[2]]) + length(awardlist[[3]])
+
+				awardsdf <- data.frame(award = c(rep("best_speaker", length(awardlist[[1]])), rep("best_eavluator", length(awardlist[[2]])), rep("best_tt", length(awardlist[[3]]))), 
 											name = unlist(awardlist),
 											award_date = rep(input$meeting_date, award_date_rep)
 									)
+				print(awardsdf)
 				sqlSave(tm, subset(awardsdf, name != ""), 'awards', append = TRUE, rownames = FALSE, varTypes = c(award = "varchar", name = "varchar", award_date = "date"))
 
 			})
