@@ -51,6 +51,16 @@ shinyServer(function(input, output, session){
 			bind_shiny("new_mem_vis", "new_mem_vis_ui")
 
 	
+	### thank you message that will show after the form is submitted:
+	output$TYmessage <- renderText({
+		"Thank you. Please see Attendence Report for the meeting minutes."
+		})
+
+	### create a flag for formsubmit button
+	output$formSubmitted <- reactive({ FALSE })
+
+	outputOptions(output, 'formSubmitted', suspendWhenHidden = FALSE)
+
 		observe({
 		if(input$submitbtn == 0){
 			return()
@@ -157,9 +167,9 @@ shinyServer(function(input, output, session){
 											name = unlist(awardlist),
 											award_date = rep(input$meeting_date, award_date_rep)
 									)
-				print(awardsdf)
 				sqlSave(tm, subset(awardsdf, name != ""), 'awards', append = TRUE, rownames = FALSE, varTypes = c(award = "varchar", name = "varchar", award_date = "date"))
 
+				output$formSubmitted <- reactive({ TRUE })
 			})
 		}	
 	})
