@@ -129,10 +129,10 @@ shinyServer(function(input, output, session){
 				
 
 				not_in_db <- setdiff(meetingdf$name, memdb)
-				# if(length(not_in_db) > 0){
-				# 	add_mem <- data.frame(name = not_in_db, member_since = rep(input$meeting_date, length(not_in_db)), status = rep("guest", length(not_in_db)))
-				# 	sqlSave(tm, add_mem, "members", append = TRUE, varTypes = c(name = "varchar", member_since = "date", status = "varchar"), colnames = FALSE, rowname = FALSE)
-				# }
+				if(length(not_in_db) > 0){
+					add_mem <- data.frame(name = not_in_db, member_since = rep(input$meeting_date, length(not_in_db)), status = rep("guest", length(not_in_db)))
+					sqlSave(tm, add_mem, "members", append = TRUE, varTypes = c(name = "varchar", member_since = "date", status = "varchar"), colnames = FALSE, rowname = FALSE)
+				}
 	
 				## collect speech info
 				

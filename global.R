@@ -32,7 +32,8 @@ awards_list <- c("Best Speaker",
 				)
 
 meetings_to_date <- sqlQuery(tm, "SELECT DISTINCT meeting_date FROM meetings")
-meetings_to_date$ui_format <- format(as.Date(meetings_to_date$meeting_date), "%B %d, %Y")
+meetings_to_date <- rbind(as.character(as.Date(Sys.time())), meetings_to_date)  ### add current date to the list because I'm too lazy to make the UI responsive. 
+meetings_to_date$ui_format <- format(c(today, as.Date(meetings_to_date$meeting_date)), "%B %d, %Y")
 
 memdb <- sqlQuery(tm, "SELECT name FROM members")
 
