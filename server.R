@@ -1,4 +1,18 @@
 shinyServer(function(input, output, session){
+
+	observe({
+		if(input$submitusr == 0){
+			return()
+		}else{
+			output$approved <- reactive({ FALSE })
+
+			if(input$username == username & input$pswd == password){
+
+				output$approved <- reactive({TRUE})
+				outputOptions(output, 'approved', suspendWhenHidden = FALSE)
+			}
+		}
+	})
 	
 	##### update selectize options:
 	updateSelectizeInput(session, roles_list[1], server = T, choices = active_member_list, selected = NULL)
@@ -178,9 +192,20 @@ shinyServer(function(input, output, session){
 		if(is.null(input$report_for)){
 			output$choose_meet_message <- renderText({"Please choose a meeting date."})
 		}else{
-			report_qry <- sprintf("SELECT role, name FROM meetings WHERE meeting_date = '%s' AND name != 'guest'", as.Date(input$report_for, "%B %d, %Y"))
+			report_qry <- sprintf("SELECT * FROM meetings WHERE meeting_date = '%s'", as.Date(input$report_for, "%B %d, %Y"))
 			report_dat <- sqlQuery(tm, report_qry)	
-			output$sec_report <- renderTable(report_dat)
+			output$sec_report <- renderUI({
+				str1 <- paste(sprintf("Meeting date: %s", format(unique(report_dat$meeting_date), "%B %d, %Y")), collapse = "")
+				str2 <- "Attendance"
+				str3 <- paste(sprintf("- Members: %s", paste(report_dat$name[report_dat$name %in% active_member_list], collapse = ", ")), collapse = "")
+				str4 <- paste(sprintf("- Guests: %s", paste(report_dat$name[!(report_dat$name %in% active_member_list)], collapse = ", ")), collapse = "")
+				str5 <- "Roles:"
+				roles_dat <- subset(report_dat, role != "attendee")
+				rls <- field_names[roles_dat$role]  ### fix this
+				str6 <- paste(paste(rls[!is.na(rls)], roles_dat$name, sep = ": "), collapse = "<br/>")
+				HTML(paste(str1, str2, str3, str4, str5, str6, sep = "<br/>"))
+
+				})
 		}
 	})
 

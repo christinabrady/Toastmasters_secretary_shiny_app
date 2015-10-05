@@ -6,25 +6,28 @@ library(ggvis)
 library(xtable)
 
 source("./include/db_connection.R")
+source("./include/usr_pswd.R")
 
 roster <- sqlQuery(tm, "SELECT name FROM members WHERE status = 'Active'")
 
-active_member_list <- c(" ", roster$name)
+active_member_list <- c(roster$name)
 
-roles_list <- c("Toastmaster", 
-				"Thought_of_the_Day", 
-				"Ah_Counter",
+field_names <- c("Toastmaster", 
+				"Thought of the Day", 
+				"Ah Counter",
 				"Grammarian", 
-				"Timer/Vote_Counter",
-				"General_Evaluator",
-				"Table_Topics_Master",  
+				"Timer/Vote Counter",
+				"General Evaluator",
+				"Table Topics Master",  
 				"Speaker", 
 				"Evaluator",	
 				"Attendee",
-				"Contest_Chair", 
-				"Contest_Judge")
+				"Contest Chair", 
+				"Contest Judge")
 
-field_names <- gsub("_", " ", roles_list)
+roles_list <- tolower(gsub(" ", "_", field_names))
+
+names(field_names) <- roles_list
 
 awards_list <- c("Best Speaker", 
 				"Best Evaluator", 
@@ -33,7 +36,7 @@ awards_list <- c("Best Speaker",
 
 meetings_to_date <- sqlQuery(tm, "SELECT DISTINCT meeting_date FROM meetings")
 meetings_to_date <- rbind(as.character(as.Date(Sys.time())), meetings_to_date)  ### add current date to the list because I'm too lazy to make the UI responsive. 
-meetings_to_date$ui_format <- format(c(today, as.Date(meetings_to_date$meeting_date)), "%B %d, %Y")
+meetings_to_date$ui_format <- format(as.Date(meetings_to_date$meeting_date), "%B %d, %Y")
 
 memdb <- sqlQuery(tm, "SELECT name FROM members")
 
