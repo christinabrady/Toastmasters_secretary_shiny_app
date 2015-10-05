@@ -193,7 +193,9 @@ shinyServer(function(input, output, session){
 			output$choose_meet_message <- renderText({"Please choose a meeting date."})
 		}else{
 			report_qry <- sprintf("SELECT * FROM meetings WHERE meeting_date = '%s'", as.Date(input$report_for, "%B %d, %Y"))
-			report_dat <- sqlQuery(tm, report_qry)	
+			report_dat <- sqlQuery(tm, report_qry)
+			awards_qry <- sprintf("SELECT award, name FROM awards WHERE award_date = '%s'", as.Date(input$report_for, "%B %d, %Y"))
+			awards_rep <- sqlQuery(tm, awards_qry)
 			output$sec_report <- renderUI({
 				str1 <- paste(sprintf("Meeting date: %s", format(unique(report_dat$meeting_date), "%B %d, %Y")), collapse = "")
 				str2 <- "Attendance"
@@ -203,7 +205,9 @@ shinyServer(function(input, output, session){
 				roles_dat <- subset(report_dat, role != "attendee")
 				rls <- field_names[roles_dat$role]  ### fix this
 				str6 <- paste(paste(rls[!is.na(rls)], roles_dat$name, sep = ": "), collapse = "<br/>")
-				HTML(paste(str1, str2, str3, str4, str5, str6, sep = "<br/>"))
+				str7 <- paste("Congratulations to: ", collapse = "")
+				str8 <- paste(paste(awards_rep$award, awards_rep$name, sep = ": "), collapse = "<br/>")
+				HTML(paste(str1, str2, str3, str4, str5, str6, str7, str8, sep = "<br/>"))
 
 				})
 		}

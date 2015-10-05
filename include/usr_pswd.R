@@ -1,2 +1,0 @@
-username <- "toastmaster"
-password <- "Challenger"
