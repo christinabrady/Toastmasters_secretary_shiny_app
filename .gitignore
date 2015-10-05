@@ -4,5 +4,5 @@ Ubuntu14.04_setup.txt
 .RHistory
 .Rapp.history
 screen_shots
-include/db_connection.R
+include/*
 .RHistory
