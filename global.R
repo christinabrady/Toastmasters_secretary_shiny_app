@@ -29,10 +29,12 @@ roles_list <- tolower(gsub(" ", "_", field_names))
 
 names(field_names) <- roles_list
 
-awards_list <- c("Best Speaker", 
+awards_field_list <- c("Best Speaker", 
 				"Best Evaluator", 
 				"Best Table Topics Response"
 				)
+awards_list <- tolower(gsub(" ", "_", awards_field_list))
+names(awards_field_list) <- awards_list
 
 meetings_to_date <- sqlQuery(tm, "SELECT DISTINCT meeting_date FROM meetings")
 meetings_to_date <- rbind(as.character(as.Date(Sys.time())), meetings_to_date)  ### add current date to the list because I'm too lazy to make the UI responsive. 

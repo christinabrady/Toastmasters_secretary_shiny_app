@@ -27,9 +27,9 @@ shinyServer(function(input, output, session){
 	updateSelectizeInput(session, roles_list[10], server = T, choices = active_member_list, selected = NULL)
 	updateSelectizeInput(session, roles_list[11], server = T, choices = active_member_list, selected = NULL)
 	updateSelectizeInput(session, roles_list[12], server = T, choices = active_member_list, selected = NULL)
-	updateSelectizeInput(session, awards_list[1], server = T, choices = active_member_list, selected = NULL)
-	updateSelectizeInput(session, awards_list[2], server = T, choices = active_member_list, selected = NULL)
-	updateSelectizeInput(session, awards_list[3], server = T, choices = active_member_list, selected = NULL)
+	updateSelectizeInput(session, awards_field_list[1], server = T, choices = active_member_list, selected = NULL)
+	updateSelectizeInput(session, awards_field_list[2], server = T, choices = active_member_list, selected = NULL)
+	updateSelectizeInput(session, awards_field_list[3], server = T, choices = active_member_list, selected = NULL)
 
 
 	##### visualizations
@@ -169,15 +169,15 @@ shinyServer(function(input, output, session){
 				
 
 				## collect award info:`
-				bs <- input$bs
-				be <- input$be
-				btt <- input$btt
+				bs <- input[awards_list[[1]]]
+				be <- input[awards_list[[2]]]
+				btt <- input[awards_list[[3]]]
 
 				awardlist <- replace_null(list(bs, be, btt))
 
 				award_date_rep <- length(awardlist[[1]]) + length(awardlist[[2]]) + length(awardlist[[3]])
 
-				awardsdf <- data.frame(award = c(rep("best_speaker", length(awardlist[[1]])), rep("best_eavluator", length(awardlist[[2]])), rep("best_tt", length(awardlist[[3]]))), 
+				awardsdf <- data.frame(award = c(rep(awards_list[[1]], length(awardlist[[1]])), rep(awards_list[[2]], length(awardlist[[2]])), rep(awards_list[[3]], length(awardlist[[3]]))), 
 											name = unlist(awardlist),
 											award_date = rep(input$meeting_date, award_date_rep)
 									)
@@ -194,7 +194,7 @@ shinyServer(function(input, output, session){
 		}else{
 			report_qry <- sprintf("SELECT * FROM meetings WHERE meeting_date = '%s'", as.Date(input$report_for, "%B %d, %Y"))
 			report_dat <- sqlQuery(tm, report_qry)
-			awards_qry <- sprintf("SELECT award, name FROM awards WHERE award_date = '%s'", as.Date(input$report_for, "%B %d, %Y"))
+			awards_qry <- sprintf("SELECT award, name FROM awards WHERE meeting_date = '%s'", as.Date(input$report_for, "%B %d, %Y"))
 			awards_rep <- sqlQuery(tm, awards_qry)
 			output$sec_report <- renderUI({
 				str1 <- paste(sprintf("Meeting date: %s", format(unique(report_dat$meeting_date), "%B %d, %Y")), collapse = "")
