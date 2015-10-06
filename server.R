@@ -86,39 +86,41 @@ shinyServer(function(input, output, session){
 
 				rolesdf <- data.frame(meeting_date = rep(input$meeting_date, 7),
 									role = roles_list[1:7], 
-									name = memb)
+									name = memb, 
+									stringsAsFactors = FALSE)
 				
 
 				speakers <- input[[roles_list[8]]]
 
 				speakersdf <- data.frame(meeting_date = rep(input$meeting_date, length(speakers)), 
 									role = rep("speaker", length(speakers)), 
-									name = speakers
+									name = speakers,
+									stringsAsFactors = FALSE
 									)
 				
 				eval <- input[[roles_list[9]]]
 				evaldf <- data.frame(meeting_date = rep(input$meeting_date, length(eval)), 
 									role = rep("evaluator", length(eval)), 
-									name = eval
+									name = eval, stringsAsFactors = FALSE
 									)
 				
 				attend <- input[[roles_list[10]]]
 				attenddf <- data.frame(meeting_date = rep(input$meeting_date, length(attend)), 
 									role = rep("attendee", length(attend)), 
-									name = attend
+									name = attend, stringsAsFactors = FALSE
 									)
 				
 
 				contestchairdf <- data.frame(meeting_date = input$meeting_date, 
 									role = "contest_chair", 
-									name = input[[roles_list[11]]]
+									name = input[[roles_list[11]]], stringsAsFactors = FALSE
 									)
 				
 
 				judges <- input[[roles_list[12]]]
 				judgesdf <- data.frame(meeting_date = rep(input$meeting_date, length(judges)), 
 									role = rep("contest_judge", length(judges)), 
-									name = judges
+									name = judges, stringsAsFactors = FALSE
 									)
 				
 
@@ -131,7 +133,7 @@ shinyServer(function(input, output, session){
 				
 				guestsdf <- data.frame(meeting_date = rep(input$meeting_date, guestsn), 
 										role = rep("guest", guestsn), 
-										name = rep("guest", guestsn)
+										name = rep("guest", guestsn), stringsAsFactors = FALSE
 										)	
 				
 
@@ -142,10 +144,10 @@ shinyServer(function(input, output, session){
 				sqlSave(tm, subset(meetingdf, name != ""), 'meetings', append = TRUE, varTypes = c(meeting_date = "date", role = "varchar", name = "varchar"), colnames = FALSE, rownames = FALSE)
 	
 
-				not_in_db <- setdiff(meetingdf$name, memdb)
+				not_in_db <- meetingdf$name[!(meetingdf$name %in% memdb)]
 	
 				if(length(not_in_db) > 0){
-					add_mem <- data.frame(name = not_in_db, member_since = rep(input$meeting_date, length(not_in_db)), status = rep("guest", length(not_in_db)))
+					add_mem <- data.frame(name = not_in_db, member_since = rep(input$meeting_date, length(not_in_db)), status = rep("guest", length(not_in_db)), stringsAsFactors = FALSE)
 					add_mem$member_since <- as.Date(add_mem$member_since)
 					sqlSave(tm, add_mem, "members", append = TRUE, varTypes = c(name = "varchar", member_since = "date", status = "varchar"), colnames = FALSE, rowname = FALSE)
 				}
@@ -162,12 +164,12 @@ shinyServer(function(input, output, session){
 				}
 					speechesdf <- data.frame(name = speakers, 
 										speech_number = speeches, 
-										date = rep(input$meeting_date, length(speeches))
+										meeting_date = rep(input$meeting_date, length(speeches)), stringsAsFactors = FALSE
 										)
 				
 				
-				
-				sqlSave(tm, speechesdf, "speeches", varTypes = c(name = "varchar", date = "date", speech_number = "varchar"), colnames = FALSE, rowname = FALSE, append = TRUE)
+				speechesdf$meeting_date <- as.Date(speechesdf$meeting_date)
+				sqlSave(tm, speechesdf, "speeches", varTypes = c(name = "varchar", meeting_date = "date", speech_number = "varchar"), colnames = FALSE, rowname = FALSE)
 			
 
 				## collect award info:`
@@ -181,7 +183,7 @@ shinyServer(function(input, output, session){
 
 				awardsdf <- data.frame(award = c(rep(awards_list[1], length(awardlist[1])), rep(awards_list[2], length(awardlist[2])), rep(awards_list[3], length(awardlist[3]))), 
 											name = unlist(awardlist),
-											award_date = rep(input$meeting_date, award_date_rep)
+											award_date = rep(input$meeting_date, award_date_rep), stringsAsFactors = FALSE
 									)
 				sqlSave(tm, subset(awardsdf, name != ""), 'awards', append = TRUE, rownames = FALSE, varTypes = c(award = "varchar", name = "varchar", award_date = "date"))
 	
