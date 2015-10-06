@@ -206,7 +206,7 @@ shinyServer(function(input, output, session){
 				rls <- field_names[roles_dat$role]  ### fix this
 				str6 <- paste(paste(rls[!is.na(rls)], roles_dat$name, sep = ": "), collapse = "<br/>")
 				str7 <- paste("Congratulations to: ", collapse = "")
-				str8 <- paste(paste(awards_rep$award, awards_rep$name, sep = ": "), collapse = "<br/>")
+				str8 <- paste(paste(awards_field_list[awards_rep$award], awards_rep$name, sep = ": "), collapse = "<br/>")
 				HTML(paste(str1, str2, str3, str4, str5, str6, str7, str8, sep = "<br/>"))
 
 				})
