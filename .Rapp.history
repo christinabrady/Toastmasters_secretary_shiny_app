@@ -1,304 +1,226 @@
-MYmemdf
-MYmemdf$meeting_dateMY$rownames(MYmemdf)
-MYmemdf$meeting_dateMY <- rownames(MYmemdf)
-MYmemdf
-MYmemdf <- do.call(rbind, MYmem)
-rownames(MYmemdf)
-MYmemdf$meeting_dateMY <- unlist(rownames(MYmemdf))
-MYmemdf
-MYmemdf <- do.call(rbind, MYmem)
-str(MYmemdf)
-as.data.frame(MYmem)
-str(as.data.frame(MYmem))
-stack(MYmem)
-MYmemdf <- stack(MYmem)#
-colnames(MYmemdf) <- c("names", "meeting_dateMY")#
-#
-plottingdf <- merge(monthly_new_mem, MYmemdf)
-plottingdf
-str(plottingdf)
-plottingdf %>%#
-	ggvis(x = ~meeting_dateMY, y = ~Freq, fill := "blue", key := ~meeting_dateMY) %>%#
-	layer_bars(fill.hover = "red") %>%#
-	add_axis("x", properties = axis_props(labels=list(angle=45, align = "left")), title = "", #
-		title_offset = 50) %>%#
-	add_axis("y", title = "Number of new members", ticks = 5) %>%#
-	add_axis("x", orient = "top", ticks = 0, title = "Number of New Members per Month",#
-           properties = axis_props(#
-             axis = list(stroke = "white"),#
-             labels = list(fontSize = 0))) %>%#
-	add_tooltip(function(data) data$names)
-plottingdf$id <- 1:nrow(plottingdf)
-plottingdf %>%#
-	ggvis(x = ~meeting_dateMY, y = ~Freq, fill := "blue", key := ~id) %>%#
-	layer_bars(fill.hover = "red") %>%#
-	add_axis("x", properties = axis_props(labels=list(angle=45, align = "left")), title = "", #
-		title_offset = 50) %>%#
-	add_axis("y", title = "Number of new members", ticks = 5) %>%#
-	add_axis("x", orient = "top", ticks = 0, title = "Number of New Members per Month",#
-           properties = axis_props(#
-             axis = list(stroke = "white"),#
-             labels = list(fontSize = 0))) %>%#
-	add_tooltip(function(x){#
-		plottingdf$names[plottingdf$id == x$id]#
-		})
-plottingdf$id
-plottingdf %>%#
-	ggvis(x = ~meeting_dateMY, y = ~Freq, fill := "blue", key := ~names) %>%#
-	layer_bars(fill.hover = "red") %>%#
-	add_axis("x", properties = axis_props(labels=list(angle=45, align = "left")), title = "", #
-		title_offset = 50) %>%#
-	add_axis("y", title = "Number of new members", ticks = 5) %>%#
-	add_axis("x", orient = "top", ticks = 0, title = "Number of New Members per Month",#
-           properties = axis_props(#
-             axis = list(stroke = "white"),#
-             labels = list(fontSize = 0))) %>%#
-	add_tooltip(function(data) data$names)
-plottingdf %>%#
-	ggvis(x = ~meeting_dateMY, y = ~Freq, fill := "blue", key := ~names) %>%#
-	layer_bars(fill.hover = "red") %>%#
-	add_axis("x", properties = axis_props(labels=list(angle=45, align = "left")), title = "", #
-		title_offset = 50) %>%#
-	add_axis("y", title = "Number of new members", ticks = 5) %>%#
-	add_axis("x", orient = "top", ticks = 0, title = "Number of New Members per Month",#
-           properties = axis_props(#
-             axis = list(stroke = "white"),#
-             labels = list(fontSize = 0))) %>%#
-	add_tooltip(function(data) data$names) %>#
-	hide_legend("fill")
-plottingdf %>%#
-	ggvis(x = ~meeting_dateMY, y = ~Freq, fill := "blue", key := ~names) %>%#
-	layer_bars(fill.hover = "red") %>%#
-	add_axis("x", properties = axis_props(labels=list(angle=45, align = "left")), title = "", #
-		title_offset = 50) %>%#
-	add_axis("y", title = "Number of new members", ticks = 5) %>%#
-	add_axis("x", orient = "top", ticks = 0, title = "Number of New Members per Month",#
-           properties = axis_props(#
-             axis = list(stroke = "white"),#
-             labels = list(fontSize = 0))) %>%#
-	add_tooltip(function(data) data$names) %>%#
-	hide_legend("fill")
-getwd()
-setwd("../secretary_shiny_app/")
-library(shiny)
-libary(shinydashboard)
-library(shinydashboard)
-install.packages("shinydashboard")
-library(shinydashboard)
 runApp()
+rm(list=ls())
 runApp()
+rm(list=ls())
 runApp()
+rm(list=ls())
 runApp()
+rm(list=ls())
 runApp()
+rm(list=ls())
 runApp()
+rm(list=ls())
 runApp()
+test_null <- NULL
+replace_null <- function(x){#
+	if(is.list(x){#
+		x <- lapply(x, function(y) replace_null(y))#
+		return(x)#
+	}#
+	if(is.null(x)){#
+		x <- " "#
+	}else{#
+		return(x)#
+	}#
+}
+replace_null <- function(x){#
+	if(is.list(x)){#
+		x <- lapply(x, function(y) replace_null(y))#
+		return(x)#
+	}#
+	if(is.null(x)){#
+		x <- " "#
+	}else{#
+		return(x)#
+	}#
+}
+test1 <- replace_null(test_null)
+test1
+test_null2 <- list(test_null, "c", "y")
+test2 <- replace_null(test_null2)
+test2
+rm(list=ls())
 runApp()
-active_members <- sqlQuery(tm, "SELECT COUNT(*) FROM members WHERE member_status = 'Active'")
-active_members
-sqlColumns(tm, 'members')
-active_members <- sqlQuery(tm, "SELECT COUNT(*) FROM members WHERE status = 'Active'")
-active_members
-str(active_members)
-active_members <- as.character(sqlQuery(tm, "SELECT COUNT(*) FROM members WHERE status = 'Active'"))
-str(active_members)
+odbcClose(tm)
+rm(list=ls())
 runApp()
+rm(list=ls())
 runApp()
+rm(list=ls())
 runApp()
+rm(list=ls())
+rm(list=ls())
 runApp()
+rm(list=ls())
 runApp()
+rm(list=ls())
 runApp()
+rm(list=ls())
 runApp()
+rm(list=ls())
 runApp()
-report <- sqlQuery(tm, "SELECT * FROM meetings WHERE meeting_date = '2015-03-18'")
-head(report)
-report <- sqlQuery(tm, "SELECT role, name FROM meetings WHERE meeting_date = '2015-03-18'")
-report
-report <- sqlQuery(tm, "SELECT role, name FROM meetings WHERE meeting_date = '2015-03-18' AND name != "guest")
-report <- sqlQuery(tm, "SELECT role, name FROM meetings WHERE meeting_date = '2015-03-18' AND name != 'guest'")
-report
-xtable(report)
-install.packages(xtable)
-install.packages("xtable")
-xtable(report)
-library(xtable)
-xtable(report)
+odbcClose(tm)
+rm(list=ls())
 runApp()
+odbcClose(tm)
+rm(list=ls())
 runApp()
+odbcClose(tm)
+rm(list=ls())
 runApp()
+odbcClose(tm)
+rm(list=ls())
 runApp()
+odbcClose(tm)
+rm(list=ls())
 runApp()
+odbcClose(tm)
 runApp()
+odbcClose(tm)
+rm(list=ls())
+sys.time()
+Sys.time()
+today <- as.Date(Sys.time(), "%Y-%m-%d")
+today <- as.Date(Sys.time())
+today
+meetings_to_date <- sqlQuery(tm, "SELECT DISTINCT meeting_date FROM meetings")#
+today <- as.Date(Sys.time())#
+meetings_to_date$ui_format <- format(c(today, as.Date(meetings_to_date$meeting_date)), "%B %d, %Y")
+tm <- odbcConnect("database2")
+meetings_to_date <- sqlQuery(tm, "SELECT DISTINCT meeting_date FROM meetings")#
+today <- as.Date(Sys.time())#
+meetings_to_date$ui_format <- format(c(today, as.Date(meetings_to_date$meeting_date)), "%B %d, %Y")
+meetings_to_date
+meetings_to_date <- rbind(as.Date(Sys.time(), meetings_to_date)
+)
+meetings_to_date <- rbind(as.character(as.Date(Sys.time())), meetings_to_date)
+meetings_to_date
+rm(list=ls())
 runApp()
+rm(list=ls())
+odbcClose(tm)
 runApp()
-a <- sqlQuery(tm, "SELECT DISTINT meeting_date FROM meetings")
-a
-a <- sqlQuery(tm, "SELECT DISTINCT meeting_date FROM meetings")
-a
-str(a)
-a$ui_format <- format(as.Date(a$meeting_date), "%B %d, %Y")
-a
+rm(list=ls())
+odbcClose()
+odbcClose(tm)
+?textInput
+rm(list=ls())
 runApp()
+odbcClose(tm)
+rm(list=ls())
+runApp()
+odbcClose(tm)
+?inputSubmit
+rm(list=ls())
+runApp()
+odbcClose(tm)
+rm(list=ls())
+runApp()
+odbcClose(tm)
+rm(list=ls())
+runApp()
+odbcClose(tm)
+runApp()
+odbcClose(tm)
 ?selectInput
 runApp()
-runApp()
-runApp()
-runApp()
-runApp()
-?order
-runApp()
-runApp()
-runApp()
-runApp()
-runApp()
-?textInput
-runApp()
-runApp()
-sqlQuery(tm, "SELECT name FROM members WHERE status = 'Active'")
-runApp()
-runApp()
-runApp()
-active_member_list
-active_member_list[grep("Chris", active_member_list)]
-active_member_list[grep("Chris", active_member_list)]
-runApp()
-?textOutput
-runApp()
-runApp()
-runApp()
-runApp()
-runApp()
-runApp()
-runApp()
-runApp()
-runApp()
-runApp()
-runApp()
-runApp()
-runApp()
-runApp()
-runApp()
-runApp()
-runApp()
-runApp()
-runApp()
+odbcClose(tm)
+?renderText
+a <- c("a", "b", "c")
+b <- c("1", "2", "c")
+paste(a, b, sep = ": ")
 rm(list=ls())
-gc()
-runApp()
-closeConnection(tm)
-odbcClose(tm)
-runApp()
-odbcClose(tm)
-runApp()
-runApp()
 runApp()
 odbcClose(tm)
 rm(list=ls())
 runApp()
-runApp()
+odbcClose(tm)
 rm(list=ls())
 runApp()
-rm(list=ls())
-rm(list=ls())
-runApp()
-runApp()
-runApp()
-rm(list=ls())
-runApp()
-roles_list <- c("Toastmaster", #
-				"Thought_of_the_Day", #
-				"Ah_Counter",#
+test <- sqlQuery(tm, "SELECT * FROM meetings WHERE meeting_date = '2015-06-17")
+test
+test <- sqlQuery(tm, "SELECT * FROM meetings WHERE meeting_date = '2015-06-17'")
+test
+format(unique(test$meeting_date), "%B %d, %Y")
+field_names <- c("Toastmaster", #
+				"Thought of the Day", #
+				"Ah Counter",#
 				"Grammarian", #
-				"Timer/Vote_Counter",#
-				"General_Evaluator",#
-				"Table_Topics_Master",  #
+				"Timer/Vote Counter",#
+				"General Evaluator",#
+				"Table Topics Master",  #
 				"Speaker", #
 				"Evaluator",	#
-				"Attendee")
-roles_list[1]
-roles_list[2]
-roles_list[3]
-roles_list[4]
-roles_list[5]
-roles_list[6]
-roles_list[7]
-roles_list[8]
-roles_list[9]
-roles_list[10]
+				"Attendee",#
+				"Contest Chair", #
+				"Contest Judge")
+roles_list <- tolower(gsub(" ", "_", field_names))#
+#
+names(field_names) <- roles_list
+field_names[test$role]
+?HTML
+report_dat <- sqlQuery(tm, "SELECT * FROM meetings WHERE meeting_date = '2015-06-17'")
+active_members <- as.character(sqlQuery(tm, "SELECT COUNT(*) FROM members WHERE status = 'Active'"))
+str1 <- sprintf("Meeting date: %s", format(unique(report_dat$meeting_date), "%B %d, %Y"))#
+				str2 <- "Attendance"#
+				str3 <- sprintf("- Members: %s", paste(report_dat$name[report_dat$name %in% active_member_list], collapse = ", "))#
+				str4 <- sprintf("- Guests: %s", paste(report_dat$name[!(report_dat$name %in% active_member_list)], collapse = ", "))#
+				str5 <- "Roles:"#
+				rls <- field_names[report_dat$role]#
+				str6 <- paste(rls, report_dat$name, sep = ":")
+paste(str1, str2, str3, str4, str5, str6, sep = "<br/>")
+paste(sprintf("- Members: %s", paste(report_dat$name[report_dat$name %in% active_member_list], collapse = ", "), sep = "")
+)
+str <- paste(sprintf("- Members: %s", paste(report_dat$name[report_dat$name %in% active_member_list], collapse = ", "), sep = ""))
+length(str)
+str3 <- paste(sprintf("- Members: %s", paste(report_dat$name[report_dat$name %in% active_member_list], collapse = ", ")), sep = "")
+length)str3)
+length(str3)
 rm(list=ls())
 runApp()
 odbcClose(tm)
 rm(list=ls())
 runApp()
-odbcClose(tm)
-rm(list=ls())
-runApp()
-runApp()
-runApp()
-runApp()
-runApp()
-runApp()
-runApp()
-runApp()
-odbcClose(tm)
-rm(list=ls())
-runApp()
-runApp()
-runApp()
-rm(list=ls())
-odbcClose(tm)
-odbcClose(tm)
-runApp()
-odbcClose(tm)
-runApp()
-runApp()
-runApp()
-runApp()
-sqlTables(tm)
-sqlColumns(tm, "awards")
-sqlColumns(tm, "speeches")
-odbcClose(tm)
-odbcClose(tm)
-runApp()
-runApp()
-odbcClose(tm)
-rm(list=ls())
-runApp()
-odbcClose(tm)
-rm(list=ls())
-runApp()
-odbcClose(tm)
-runApp()
-odbcClose(tm)
-runApp()
-odbcClose(tm)
-rm(list=ls())
-runApp()
-traceback()
-odbcClose(tm)
-runApp()
-odbcClose(tm)
-rm(list=ls())
-runApp()
-odbcClose(tm)
-runApp()
-odbcClose(tm)
-rm(list=ls())
-runApp()
-runApp()
-odbcClose(tm)
-runApp()
-odbcClose(tm)
-rm(list=ls())
-runApp()
-odbcClose(tm)
-rm(list=ls())
-runApp()
-runApp()
-odbcClose(tm)
-runApp()
-runApp()
-odbcClose(tm)
-runApp()
+report_qry <- sprintf("SELECT role, name FROM meetings WHERE meeting_date = '%s'", '2015-09-17')
+report_dat <- sqlQuery(tm, report_qry)
+report_dat
+str1 <- paste(sprintf("Meeting date: %s", format(unique(report_dat$meeting_date), "%B %d, %Y")), sep = "")
+str1
+report_qry <- sprintf("SELECT * FROM meetings WHERE meeting_date = '%s'", '2015-09-17')
+str1 <- paste(sprintf("Meeting date: %s", format(unique(report_dat$meeting_date), "%B %d, %Y")), sep = "")
+str1
+report_dat
+report_qry
+report_dat <- sqlQuery(tm, report_qry)
+report_dat
+str1 <- paste(sprintf("Meeting date: %s", format(unique(report_dat$meeting_date), "%B %d, %Y")), sep = "")
+str1
+length(str1)
+str2 <- "Attendance"#
+				str3 <- paste(sprintf("- Members: %s", paste(report_dat$name[report_dat$name %in% active_member_list], collapse = ", ")), sep = "")#
+				str4 <- paste(sprintf("- Guests: %s", paste(report_dat$name[!(report_dat$name %in% active_member_list)], collapse = ", ")), sep = "")#
+				str5 <- "Roles:"#
+				rls <- field_names[report_dat$role]
+rls
+str6 <- paste(paste(rls[!is.na(rls)], report_dat$name, sep = ":"), sep = "")
+length(str6)
+str6 <- paste(paste(rls[!is.na(rls)], report_dat$name, sep = ":"), collapse = "")
+length(str6)
+str6 <- paste(paste(rls[!is.na(rls)], report_dat$name, sep = ":"), collapse = "")str1 <- paste(sprintf("Meeting date: %s", format(unique(report_dat$meeting_date), "%B %d, %Y")), collapse = "")#
+				str2 <- "Attendance"#
+				str3 <- paste(sprintf("- Members: %s", paste(report_dat$name[report_dat$name %in% active_member_list], collapse = ", ")), collapse = "")#
+				str4 <- paste(sprintf("- Guests: %s", paste(report_dat$name[!(report_dat$name %in% active_member_list)], collapse = ", ")), collapse = "")#
+				str5 <- "Roles:"#
+				rls <- field_names[report_dat$role]#
+				str6 <- paste(paste(rls[!is.na(rls)], report_dat$name, sep = ":"), collapse = "")
+str1 <- paste(sprintf("Meeting date: %s", format(unique(report_dat$meeting_date), "%B %d, %Y")), collapse = "")#
+				str2 <- "Attendance"#
+				str3 <- paste(sprintf("- Members: %s", paste(report_dat$name[report_dat$name %in% active_member_list], collapse = ", ")), collapse = "")#
+				str4 <- paste(sprintf("- Guests: %s", paste(report_dat$name[!(report_dat$name %in% active_member_list)], collapse = ", ")), collapse = "")#
+				str5 <- "Roles:"#
+				rls <- field_names[report_dat$role]#
+				str6 <- paste(paste(rls[!is.na(rls)], report_dat$name, sep = ":"), collapse = "")
+paste(str1, str2, str3, str4, str5, str6, sep = "<br/>")
 odbcClose(tm)
 rm(list=ls())
 runApp()
@@ -312,5 +234,104 @@ odbcClose(tm)
 rm(list=ls())
 runApp()
 odbcClose(tm)
+str7 <- paste("Congratulations to:", collapse = "")
+str7
 rm(list=ls())
 runApp()
+odbcClose(tm)
+rm(list=ls())
+runApp()
+odbcClose(tm)
+rm(list=ls())
+runApp()
+awards_qry <- sprintf("SELECT award, name FROM awards WHERE meeting_date = '%s'", as.Date('2015-09-17'))
+awards_rep <- sqlQuery(tm, awards_qry)
+awards_rep
+odbcClose(tm)
+rm(list=ls())
+runApp()
+field_names <- c("Toastmaster", #
+				"Thought of the Day", #
+				"Ah Counter",#
+				"Grammarian", #
+				"Timer/Vote Counter",#
+				"General Evaluator",#
+				"Table Topics Master",  #
+				"Speaker", #
+				"Evaluator",	#
+				"Attendee",#
+				"Contest Chair", #
+				"Contest Judge")#
+#
+roles_list <- tolower(gsub(" ", "_", field_names))
+roles_list
+meetings <- read.csv("~/docs/manual_work.csv")
+meetings <- read.csv("../datawork/manual_work.csv")
+head(meetings)
+unique(meetings$role)
+meetings$role <- gsub(" ", "_", meetings$role)
+unique(meetings$role)
+sqlSave(tm, meetings, 'meetings', varTypes = c(meeting_date = "date", role = "varchar", name = "varchar"), colnames = FALSE, rownames = FALSE)
+sqlDrop(tm, "meetings")
+sqlSave(tm, meetings, 'meetings', varTypes = c(meeting_date = "date", role = "varchar", name = "varchar"), colnames = FALSE, rownames = FALSE)
+names <- sqlQuery(tm, "SELECT name FROM members")
+names
+getwd()
+awards <- read.csv("../datawork/manual_awards.csv")
+awards
+rm(list=ls())
+getwd()
+runApp()
+rm(list=ls())
+runApp()
+odbcClose(tm)
+rm(list=ls())
+runApp()
+memdb <- sqlQuery(tm, "SELECT name FROM members")
+memdb
+setdiff("Ashley Woyak", memdb)
+odbcClose(tm)
+rm(list=ls())
+runApp()
+test <- sqlQuery(tm, "SELECT * FROM meetings WHERE meeting_date = '2015-10-05")
+test
+test <- sqlQuery(tm, "SELECT * FROM meetings WHERE meeting_date = '2015-10-05'")
+test
+runApp()
+test <- sqlQuery(tm, "SELECT * FROM meetings WHERE meeting_date = '2015-10-08'")
+test
+odbcClose(tm)
+runApp()
+test <- sqlQuery(tm, "SELECT * FROM meetings WHERE meeting_date = '2015-10-08'")
+test
+sqlColumns(tm, "members")
+sqlColumns(tm, "members")
+odbcClose(tm)
+rm(list=ls())
+runApp()
+odbcClose(tm)
+rm(list=ls())
+runApp()
+field_names <- c("Toastmaster", #
+				"Thought of the Day", #
+				"Ah Counter",#
+				"Grammarian", #
+				"Timer/Vote Counter",#
+				"General Evaluator",#
+				"Table Topics Master",  #
+				"Speaker", #
+				"Evaluator",	#
+				"Attendee",#
+				"Contest Chair", #
+				"Contest Judge")#
+#
+roles_list <- tolower(gsub(" ", "_", field_names))#
+#
+names(field_names) <- roles_list
+field_names
+odbcClose(tm)
+rm(list=ls())
+runApp()
+test <- sqlQuery(tm, )
+test <- sqlQuery(tm, "SELECT * FROM meetings")
+test

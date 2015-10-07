@@ -8,6 +8,7 @@ head(meetings)
 
 ### fix the discrepancy in how I am treating role names in the db:
 meetings$role <- gsub(" ", "_", meetings$role)
+meetings$role[meetings$role == "timer/vote_counter"] <- "timer_and_voter_counter"
 
 
 sqlSave(tm, meetings, 'meetings', varTypes = c(meeting_date = "date", role = "varchar", name = "varchar"), colnames = FALSE, rownames = FALSE)
