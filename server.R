@@ -185,6 +185,8 @@ shinyServer(function(input, output, session){
 										name = unlist(winnerlist),
 										meeting_date = rep(input$meeting_date, award_date_rep)
 					)
+
+				awardsdf$meeting_date <- as.Date(awardsdf$meeting_date)
 				sqlSave(tm, subset(awardsdf, name != ""), 'awards', append = TRUE, rownames = FALSE, varTypes = c(award = "varchar", name = "varchar", meeting_date = "date"))
 	
 				output$formSubmitted <- reactive({ TRUE })
