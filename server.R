@@ -169,7 +169,7 @@ shinyServer(function(input, output, session){
 				
 				
 				speechesdf$meeting_date <- as.Date(speechesdf$meeting_date)
-				sqlSave(tm, speechesdf, "speeches", append = TRUE, varTypes = c(name = "varchar", meeting_date = "date", speech_number = "varchar"), colnames = FALSE, rowname = FALSE)
+				# sqlSave(tm, speechesdf, "speeches", append = TRUE, varTypes = c(name = "varchar", meeting_date = "date", speech_number = "varchar"), colnames = FALSE, rowname = FALSE)
 			
 
 				## collect award info:`
@@ -177,15 +177,15 @@ shinyServer(function(input, output, session){
 				be <- input[[awards_list[2]]]
 				btt <- input[[awards_list[3]]]
 
-				awardlist <- replace_null(list(bs, be, btt))
-
-				award_date_rep <- length(awardlist[[1]]) + length(awardlist[[2]]) + length(awardlist[[3]])
-
-				awardsdf <- data.frame(award = c(rep(awards_list[1], length(awardlist[1])), rep(awards_list[2], length(awardlist[2])), rep(awards_list[3], length(awardlist[3]))), 
-											name = unlist(awardlist),
-											award_date = rep(input$meeting_date, award_date_rep)
-									)
-				sqlSave(tm, subset(awardsdf, name != ""), 'awards', append = TRUE, rownames = FALSE, varTypes = c(award = "varchar", name = "varchar", award_date = "date"))
+				winnerlist <- replace_null(list(bs, be, btt))
+				
+				award_date_rep <- length(winnerlist[[1]]) + length(winnerlist[[2]]) + length(winnerlist[[3]])
+				
+				awardsdf <- data.frame(award = c(rep(awards_list[1], length(winnerlist[[1]])), rep(awards_list[2], length(winnerlist[[2]])), rep(awards_list[3], length(winnerlist[[3]]))),
+										name = unlist(winnerlist),
+										meeting_date = rep(input$meeting_date, award_date_rep)
+					)
+				sqlSave(tm, subset(awardsdf, name != ""), 'awards', append = TRUE, rownames = FALSE, varTypes = c(award = "varchar", name = "varchar", meeting_date = "date"))
 	
 				output$formSubmitted <- reactive({ TRUE })
 			})
