@@ -169,7 +169,7 @@ shinyServer(function(input, output, session){
 				
 				
 				speechesdf$meeting_date <- as.Date(speechesdf$meeting_date)
-				# sqlSave(tm, speechesdf, "speeches", append = TRUE, varTypes = c(name = "varchar", meeting_date = "date", speech_number = "varchar"), colnames = FALSE, rowname = FALSE)
+				sqlSave(tm, speechesdf, "speeches", append = TRUE, varTypes = c(name = "varchar", meeting_date = "date", speech_number = "varchar"), colnames = FALSE, rowname = FALSE)
 			
 
 				## collect award info:`
