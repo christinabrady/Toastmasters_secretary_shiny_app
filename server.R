@@ -169,7 +169,7 @@ shinyServer(function(input, output, session){
 				
 				
 				speechesdf$meeting_date <- as.Date(speechesdf$meeting_date)
-				sqlSave(tm, speechesdf, "speeches", varTypes = c(name = "varchar", meeting_date = "date", speech_number = "varchar"), colnames = FALSE, rowname = FALSE)
+				sqlSave(tm, speechesdf, "speeches", append = TRUE, varTypes = c(name = "varchar", meeting_date = "date", speech_number = "varchar"), colnames = FALSE, rowname = FALSE)
 			
 
 				## collect award info:`
@@ -183,7 +183,7 @@ shinyServer(function(input, output, session){
 
 				awardsdf <- data.frame(award = c(rep(awards_list[1], length(awardlist[1])), rep(awards_list[2], length(awardlist[2])), rep(awards_list[3], length(awardlist[3]))), 
 											name = unlist(awardlist),
-											award_date = rep(input$meeting_date, award_date_rep), stringsAsFactors = FALSE
+											award_date = rep(input$meeting_date, award_date_rep)
 									)
 				sqlSave(tm, subset(awardsdf, name != ""), 'awards', append = TRUE, rownames = FALSE, varTypes = c(award = "varchar", name = "varchar", award_date = "date"))
 	
