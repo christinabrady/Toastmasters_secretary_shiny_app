@@ -42,6 +42,15 @@ meetings_to_date$ui_format <- format(as.Date(meetings_to_date$meeting_date), "%B
 
 memdb <- sqlQuery(tm, "SELECT name FROM members")
 
+structure_report_dates <- function(x){
+	dts <- sqlQuery(tm, "SELECT DISTINCT meeting_date FROM meetings")
+	dts$ui_format <- format(dts$meeting_date, "%B %d, %Y")	
+	return(dts$ui_format[rev(order(dts$meeting_date))])
+}
+
+report_dates <- structure_report_dates()
+# rev(meetings_to_date$ui_format[order(as.Date(meetings_to_date$meeting_date))]), )
+
 ### data prep:
 
 active_members <- as.character(sqlQuery(tm, "SELECT COUNT(*) FROM members WHERE status = 'Active'"))

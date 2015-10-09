@@ -117,13 +117,12 @@ shinyUI(dashboardPage(skin = "blue",
 					fluidRow(
 						box(
 							title = NULL, width = 4, status = "primary", background = "light-blue",
-							selectInput("report_for", "Meeting Date", rev(meetings_to_date$ui_format[order(as.Date(meetings_to_date$meeting_date))]), )
+							selectInput("report_for", "Meeting Date", report_dates)
 						)
 					),
 
 					fluidRow( 
 						box(width = 6, 
-							textOutput("choose_meet_message"),
 							htmlOutput("sec_report")
 						) 
 					)
