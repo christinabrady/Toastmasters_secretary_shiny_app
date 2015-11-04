@@ -94,7 +94,7 @@ shinyUI(dashboardPage(skin = "blue",
 
 								box(width = NULL, solidHeader = TRUE, status = "primary",
 									title = "Guests", 
-									textInput("guests", "How many guests attended? (If no guests attended, please input 0.)")
+									selectizeInput("guests", "Please input guest names.", choices = active_member_list, options = list(create = TRUE), multiple = TRUE)
 									
 								),
 

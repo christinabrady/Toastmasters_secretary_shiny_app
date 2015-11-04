@@ -1,108 +1,94 @@
 library(RODBC)
+tm <- odbcConnect("database2")
+members <- sqlQuery(tm, "SELECT * FROM members")
+members
+update_members <- function(names, newStatus = "Inactive")#
+	source("include/dbconnection")#
+	member_since_qry <- sprintf("SELECT member_since #
+								FROM members #
+								WHERE name IN (%s)", #
+								paste(sprintf("'%s'", names), collapse = ","))#
+	member_since <- sqlQuery(tm, member_since_qry)#
+	df <- data.frame(name = names, member_since = member_since$member_since, status = rep(newStatus, length(names)))#
+#
+	sqlUpdate(tm, df, tablename = "members")#
+}
+update_members <- function(names, newStatus = "Inactive"){#
+	source("include/dbconnection")#
+	member_since_qry <- sprintf("SELECT member_since #
+								FROM members #
+								WHERE name IN (%s)", #
+								paste(sprintf("'%s'", names), collapse = ","))#
+	member_since <- sqlQuery(tm, member_since_qry)#
+	df <- data.frame(name = names, member_since = member_since$member_since, status = rep(newStatus, length(names)))#
+#
+	sqlUpdate(tm, df, tablename = "members")#
+}
+update_members(c("Jay Fabian", "Jung Kim", "Inactive"))
+update_members <- function(names, newStatus = "Inactive"){#
+	#source("include/dbconnection")#
+	member_since_qry <- sprintf("SELECT member_since #
+								FROM members #
+								WHERE name IN (%s)", #
+								paste(sprintf("'%s'", names), collapse = ","))#
+	member_since <- sqlQuery(tm, member_since_qry)#
+	df <- data.frame(name = names, member_since = member_since$member_since, status = rep(newStatus, length(names)))#
+#
+	sqlUpdate(tm, df, tablename = "members")#
+}
+update_members(c("Jay Fabian", "Jung Kim", "Inactive"))
+update_members <- function(names, newStatus = "Inactive"){#
+	#source("include/dbconnection")#
+	member_since_qry <- sprintf("SELECT member_since #
+								FROM members #
+								WHERE name IN (%s)", #
+								paste(sprintf("'%s'", names), collapse = ","))#
+	member_since <- sqlQuery(tm, member_since_qry)#
+	print(length(names)#
+	print(length(member_since)))#
+	df <- data.frame(name = names, member_since = member_since$member_since, status = rep(newStatus, length(names)))#
+#
+	sqlUpdate(tm, df, tablename = "members")#
+}
+update_members <- function(names, newStatus = "Inactive"){#
+	#source("include/dbconnection")#
+	member_since_qry <- sprintf("SELECT member_since #
+								FROM members #
+								WHERE name IN (%s)", #
+								paste(sprintf("'%s'", names), collapse = ","))#
+	member_since <- sqlQuery(tm, member_since_qry)#
+	print(length(names))#
+	print(length(member_since))#
+	df <- data.frame(name = names, member_since = member_since$member_since, status = rep(newStatus, length(names)))#
+#
+	sqlUpdate(tm, df, tablename = "members")#
+}
+update_members(c("Jay Fabian", "Jung Kim", "Inactive"))
+update_members(c("Jay Fabian", "Jung Kim"), "Inactive")
+?sqlUpdate
+update_members <- function(names, newStatus = "Inactive"){#
+	#source("include/dbconnection")#
+	member_since_qry <- sprintf("SELECT member_since #
+								FROM members #
+								WHERE name IN (%s)", #
+								paste(sprintf("'%s'", names), collapse = ","))#
+	member_since <- sqlQuery(tm, member_since_qry)#
+	print(length(names))#
+	print(length(member_since))#
+	df <- data.frame(name = names, member_since = member_since$member_since, status = rep(newStatus, length(names)))#
+#
+	sqlUpdate(tm, df, tablename = "members", index = "status")#
+}
+update_members(c("Jay Fabian", "Jung Kim"), "Inactive")
+test <- sqlQuery(tm, "SELECT * FROM members WHERE name IN ('Jay Fabian', 'Jung Kim')")
+test
+getwd)=
+getwd)=
+getwd()
 setwd("~/Documents/Toastmasters/secretary_shiny_app/")
+runApp()
 library(shiny)
 runApp()
 odbcClose(tm)
-rm(list=ls())
 runApp()
-odbcClose(tm)
-rm(list=ls())
-runApp()
-odbcClose(tm)
-rm(list=ls())
-runApp()
-odbcClose(tm)
-a <- c("a", "b", "c")
-b <- "t"
-c <- "o"
-replace_null(list(a, b, c))
-unlist(replace_null(list(a, b, c)))
-unlist(replace_null(list(a, NULL, c)))
-rm(list=ls())
-runApp()
-odbcClose(tm)
-rm(list=ls())
-runApp()
-odbcClose(tm)
-rm(list=ls())
-runApp()
-odbcClose(tm)
-rm(list=ls())
-runApp()
-odbcClose(tm)
-rm(list=ls())
-runApp()
-odbcClose(tm)
-rm(list=ls())
-runApp()
-odbcClose(tm)
-rm(list=ls())
-runApp()
-odbcClose(tm)
-rm(list=ls())
-runApp()
-odbcClose(tm)
-rm(list=ls())
-runApp()
-odbcClose(tm)
-rm(list=ls())
-runApp()
-odbcClose(tm)
-rm(list=ls())
-runApp()
-odbcClose(tm)
-rm(list=ls())
-runApp()
-odbcClose(tm)
-rm(list=ls())
-tm <- odbcConnect("toastmasters")
-tm <- odbcConnect("database2")
-report_datesdf <- rev(as.Date(as.character(sqlQuery(tm, "SELECT DISTINCT meeting_date FROM meetings")), "%B %d, %Y"))
-report_datesdf
-sqlQuery(tm, "SELECT DISTINCT meeting_date FROM meetings")
-test <- sqlQuery(tm, "SELECT DISTINCT meeting_date FROM meetings")
-format(test, "%B %d, %Y")
-report_datesdf <- rev(format(sqlQuery(tm, "SELECT DISTINCT meeting_date FROM meetings"), "%B %d, %Y"))
-report_datesdf
-rm(list=ls())
-runApp()
-odbcClose(tm)
-runApp()
-odbcClose(tm)
-rm(list=ls())
-runApp()
-wtf <- sqlQuery(tm, "SELECT * FROM meetings WHERE meeting_date = '2015-10-08'")
-wtf
-wtf2 <- sqlQuery(tm, "SELECT * FROM awards WHERE meeting_date = '2015-10-08'")
-wtf2
-sqlColumns(tm, "awards")
-odbcClose(tm)
-rm(list=ls())
-runApp()
-slqDrop(tm, "awards")
-sqlDrop(tm, "awards")
-odbcClose(tm)
-rm(list=ls())
-runApp()
-wtf <- sqlQuery(tm, "SELECT * FROM meetings WHERE meeting_date = '2015-10-08'")
-wtf
-wtf <- sqlQuery(tm, "SELECT * FROM speeches WHERE meeting_date = '2015-10-08'")
-wtf
-wtf <- sqlQuery(tm, "SELECT * FROM awards WHERE meeting_date = '2015-10-08'")
-wtf
-sqlColumns(tm, "speeches")
-odbcClose(tm)
-rm(list=ls())
-runApp()
-report_dates <- rev(format(sqlQuery(tm, "SELECT DISTINCT meeting_date FROM meetings"), "%B %d, %Y"))
-report_dates
-report_dates <- format(sqlQuery(tm, "SELECT DISTINCT meeting_date FROM meetings"), "%B %d, %Y")
-report_dates
-str(report_dates)
-report_dates <- sqlQuery(tm, "SELECT DISTINCT meeting_date FROM meetings")
-report_dates$ui_format <- format(report_dates, "%B %d, %Y")
-report_dates
-str(report_dates)
-odbcClose(tm)
-rm(list=ls())
-runApp()
+memdb

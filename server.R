@@ -30,6 +30,7 @@ shinyServer(function(input, output, session){
 	updateSelectizeInput(session, awards_field_list[1], server = T, choices = active_member_list, selected = NULL)
 	updateSelectizeInput(session, awards_field_list[2], server = T, choices = active_member_list, selected = NULL)
 	updateSelectizeInput(session, awards_field_list[3], server = T, choices = active_member_list, selected = NULL)
+	updateSelectizeInput(session, "guests", server = T, choices = active_member_list, selected = NULL)
 
 
 	##### visualizations
@@ -125,27 +126,22 @@ shinyServer(function(input, output, session){
 									)
 				
 
-				if(is.na(as.numeric(input$guests))){
-					guestsn <- 0
-				}else{
-					guestsn <- input$guests
-				}
-
-				
-				guestsdf <- data.frame(meeting_date = rep(input$meeting_date, guestsn), 
-										role = rep("guest", guestsn), 
-										name = rep("guest", guestsn), stringsAsFactors = FALSE
+				### collect guest names: 
+				guests <- input$guests
+				guestsdf <- data.frame(meeting_date = rep(input$meeting_date, length(guests)), 
+										role = rep("guest", length(guests)), 
+										name = guests, stringsAsFactors = FALSE
 										)	
-				
+
 
 				meetingdf <- rbind(rolesdf, speakersdf, attenddf, contestchairdf, judgesdf, guestsdf)
 
 				## save attendence info
 				
-				sqlSave(tm, subset(meetingdf, name != ""), 'meetings', append = TRUE, varTypes = c(meeting_date = "date", role = "varchar", name = "varchar"), colnames = FALSE, rownames = FALSE)
+				sqlSave(tm, subset(meetingdf, name != "" & role != "guest"), 'meetings', append = TRUE, varTypes = c(meeting_date = "date", role = "varchar", name = "varchar"), colnames = FALSE, rownames = FALSE)
 	
 
-				not_in_db <- meetingdf$name[!(meetingdf$name %in% memdb)]
+				not_in_db <- meetingdf$name[!(meetingdf$name %in% memdb$name)]
 	
 				if(length(not_in_db) > 0){
 					add_mem <- data.frame(name = not_in_db, member_since = rep(input$meeting_date, length(not_in_db)), status = rep("guest", length(not_in_db)), stringsAsFactors = FALSE)
@@ -203,12 +199,14 @@ shinyServer(function(input, output, session){
 			report_dat <- sqlQuery(tm, report_qry)
 			awards_qry <- sprintf("SELECT award, name FROM awards WHERE meeting_date = '%s'", as.Date(input$report_for, "%B %d, %Y"))
 			awards_rep <- sqlQuery(tm, awards_qry)
+			guest_qry <- sprintf("SELECT name FROM members WHERE status = 'guest' AND member_since = '%s'", as.Date(input$report_for, "%B %d, %Y"))
+			guest_dat <- sqlQuery(tm, guest_qry)
 			
 			output$sec_report <- renderUI({
 				str1 <- paste(sprintf("Meeting date: %s", format(unique(report_dat$meeting_date), "%B %d, %Y")), collapse = "")
 				str2 <- "Attendance"
 				str3 <- paste(sprintf("- Members: %s", paste(report_dat$name[report_dat$name %in% active_member_list], collapse = ", ")), collapse = "")
-				str4 <- paste(sprintf("- Guests: %s", paste(report_dat$name[!(report_dat$name %in% active_member_list)], collapse = ", ")), collapse = "")
+				str4 <- paste(sprintf("- Guests: %s", paste(guest_dat$name[guest_dat$name != ""], collapse = ", ")), collapse = "")
 				str5 <- "Roles:"
 				roles_dat <- subset(report_dat, role != "attendee")
 				rls <- field_names[roles_dat$role]  ### fix this
