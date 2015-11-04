@@ -1,8 +1,8 @@
 
 Ubuntu14.04_setup.txt
 .DS_store
-.RHistory
+.Rhistory
 .Rapp.history
 screen_shots
 include/*
-.RHistory
+.RData
