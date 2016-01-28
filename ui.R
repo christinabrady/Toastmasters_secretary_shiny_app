@@ -9,7 +9,8 @@ shinyUI(dashboardPage(skin = "blue",
 		sidebarMenu(
 			menuItem("Home", tabName = "viz"),
 			menuItem("Record Attendence", tabName = "datain"), 
-			menuItem("Attendance Report", tabName = "dataout")
+			menuItem("Attendance Report", tabName = "dataout"),
+			menuItem("Role Tracking", tabName = "roles")
 		)
 	),
 	dashboardBody(
@@ -104,6 +105,12 @@ shinyUI(dashboardPage(skin = "blue",
 									actionButton(inputId = "submitbtn", label = "Submit")
 								)
 							)
+						),
+
+					fluidRow( 
+							box(title = "Today's Report", width = 6, 
+								htmlOutput("sec_report_fix")
+							)
 						)
 					), 
 
@@ -125,6 +132,54 @@ shinyUI(dashboardPage(skin = "blue",
 						box(width = 6, 
 							htmlOutput("sec_report")
 						) 
+					)
+				),
+
+				tabItem("roles", 
+					fluidRow(
+						box(title = "Toastmaster", width = 4, 
+							plotOutput('tmg')
+							),
+						box(title = "Thought of the Day", width = 4, 
+							plotOutput('todg')
+							),
+						box(title = "Ah Counter", width = 4, 
+							plotOutput('ahg')
+							)
+					),
+
+					fluidRow(
+						box(title = "Grammarian", width = 4, 
+							plotOutput('gramg')
+							),
+						box(title = "Timer/Vote Counter", width = 4, 
+							plotOutput('tvcg')
+							),
+						box(title = "General Evaluator", width = 4, 
+							plotOutput('geneg')
+							)
+					),
+
+					fluidRow(
+						box(title = "Table Topics Master", width = 4, 
+							plotOutput('ttg')
+							),
+						box(title = "Evaluator", width = 4, 
+							plotOutput('eeg')
+							),
+						box(title = "Table Topis Speaker", width = 4, 
+							plotOutput('ttsg')
+							)
+					),
+						
+
+					fluidRow(
+						box(title = "Contest Judge", width = 4, 
+							plotOutput('cjg')
+							), 
+						box(title = "Contest Chair", width = 4, 
+							plotOutput('ccg')
+							)
 					)
 				)
 			)

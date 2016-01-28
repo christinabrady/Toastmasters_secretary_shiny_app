@@ -4,6 +4,7 @@ library(shiny)
 library(RODBC)
 library(ggvis)
 library(xtable)
+library(ggplot2)
 
 source("./include/db_connection.R")
 source("./include/usr_pswd.R")
@@ -49,6 +50,12 @@ structure_report_dates <- function(x){
 }
 
 report_dates <- structure_report_dates()
+
+rolesdf <- sqlQuery(tm, "SELECT meetings.name, role 
+						FROM members, meetings
+						WHERE members.name = meetings.name AND members.status = 'Active' AND meetings.role != 'attendee'")
+
+
 # rev(meetings_to_date$ui_format[order(as.Date(meetings_to_date$meeting_date))]), )
 
 ### data prep:
@@ -111,3 +118,49 @@ replace_null <- function(x){
 		return(x)
 	}
 }
+
+
+########### role viz data prep
+roleplots <- function(dat, role){
+	tmp <- dat[dat$role == role,]
+	tbdf <- as.data.frame(table(tmp$name))
+	g <- ggplot(tbdf, aes(x = Var1, y = Freq)) +
+	geom_bar(stat = "identity", fill = "dodgerblue") +
+	scale_y_discrete(breaks = seq(1, max(tbdf$Freq), 1), 
+		labels = seq(1, max(tbdf$Freq), 1), 
+		expand = c(0,0)) +
+	theme_bw() +
+	theme(axis.text.x = element_text(angle = 30, hjust = 1, vjust = 1)) +
+	labs(x = "", y = "Number of times fullfilling this role")
+	return(g)
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

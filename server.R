@@ -66,12 +66,6 @@ shinyServer(function(input, output, session){
 			bind_shiny("new_mem_vis", "new_mem_vis_ui")
 
 	
-	### thank you message that will show after the form is submitted:
-	output$TYmessage <- renderText({
-		"Thank you. Please see Attendence Report for the meeting minutes."
-
-		})
-
 	### create a flag for formsubmit button
 	output$formSubmitted <- reactive({ FALSE })
 
@@ -185,16 +179,36 @@ shinyServer(function(input, output, session){
 
 				awardsdf$meeting_date <- as.Date(awardsdf$meeting_date)
 				sqlSave(tm, subset(awardsdf, name != ""), 'awards', append = TRUE, rownames = FALSE, varTypes = c(award = "varchar", name = "varchar", meeting_date = "date"))
-				
-				### repull report dates: 
-				report_dates <<- structure_report_dates()
+
+
+				output$sec_report_fix <- renderUI({
+					str1 <- paste(sprintf("Meeting date: %s", format(input$meeting_date), "%B %d, %Y"), collapse = "")
+					str2 <- "Attendance"
+					str3 <- paste(sprintf("- Members: %s", paste(memb, collapse = ", ")), collapse = "")
+					str4 <- paste(sprintf("- Guests: %s", paste(guestsdf$name[guestsdf$name != ""], collapse = ", ")), collapse = "")
+					str5 <- "Roles:"
+					rls <- field_names[rolesdf$role]  ### fix this
+					str6 <- paste(paste(rls[!is.na(rls)], rolesdf$name, sep = ": "), collapse = "<br/>")
+					str7 <- "Congratulations to: "
+					str8 <- paste(paste(awards_field_list[awardsdf$award], awardsdf$name, sep = ": "), collapse = "<br/>")
+					HTML(paste(str1, str2, str3, str4, str5, str6, str7, str8, sep = "<br/>"))
+								
+				})
 
 				output$formSubmitted <- reactive({ TRUE })
+
+				### thank you message that will show after the form is submitted:
+				output$TYmessage <- "Your form has been submitted. Thank you!"
+
+	
 			})
 		}	
 	})
-	
+
+
 	observe({
+
+
 			report_qry <- sprintf("SELECT * FROM meetings WHERE meeting_date = '%s'", as.Date(input$report_for, "%B %d, %Y"))
 			report_dat <- sqlQuery(tm, report_qry)
 			awards_qry <- sprintf("SELECT award, name FROM awards WHERE meeting_date = '%s'", as.Date(input$report_for, "%B %d, %Y"))
@@ -206,7 +220,7 @@ shinyServer(function(input, output, session){
 				str1 <- paste(sprintf("Meeting date: %s", format(unique(report_dat$meeting_date), "%B %d, %Y")), collapse = "")
 				str2 <- "Attendance"
 				str3 <- paste(sprintf("- Members: %s", paste(report_dat$name[report_dat$name %in% active_member_list], collapse = ", ")), collapse = "")
-				str4 <- paste(sprintf("- Guests: %s", paste(guest_dat$name[guest_dat$name != ""], collapse = ", ")), collapse = "")
+				str4 <- paste(sprintf("- Guests: %s", paste(guest_dat$name, collapse = ", ")), collapse = "")
 				str5 <- "Roles:"
 				roles_dat <- subset(report_dat, role != "attendee")
 				rls <- field_names[roles_dat$role]  ### fix this
@@ -218,4 +232,42 @@ shinyServer(function(input, output, session){
 				})
 	})
 
+	output$tmg <- renderPlot({
+		roleplots(rolesdf, "toastmaster")
+		})
+
+	output$todg <- renderPlot({
+		roleplots(rolesdf, "though_of_the_day")
+		})
+
+	output$thg <- renderPlot({
+		roleplots(rolesdf, "ah_counter")
+		})
+
+	output$gramg <- renderPlot({
+		roleplots(rolesdf, "grammarian")
+		})
+
+	output$tvcg <- renderPlot({
+		roleplots(rolesdf, "timer_and_vote_counter")
+		})
+
+	output$geneg <- renderPlot({
+		roleplots(rolesdf, "general_evaluator")
+		})
+
+	output$ttg <- renderPlot({
+		roleplots(rolesdf, "table_topics")
+		})
+
+	output$eeg <- renderPlot({
+		roleplots(rolesdf, "evaluator")
+		})
+
+	output$ccg <- renderPlot({
+		roleplots(rolesdf, "contest_chair")
+		})
+	output$cjg <- renderPlot({
+		roleplots(rolesdf, "chief_judge")
+		})
 })

@@ -1,94 +1,347 @@
-library(RODBC)
-tm <- odbcConnect("database2")
-members <- sqlQuery(tm, "SELECT * FROM members")
-members
-update_members <- function(names, newStatus = "Inactive")#
-	source("include/dbconnection")#
-	member_since_qry <- sprintf("SELECT member_since #
-								FROM members #
-								WHERE name IN (%s)", #
-								paste(sprintf("'%s'", names), collapse = ","))#
-	member_since <- sqlQuery(tm, member_since_qry)#
-	df <- data.frame(name = names, member_since = member_since$member_since, status = rep(newStatus, length(names)))#
-#
-	sqlUpdate(tm, df, tablename = "members")#
-}
-update_members <- function(names, newStatus = "Inactive"){#
-	source("include/dbconnection")#
-	member_since_qry <- sprintf("SELECT member_since #
-								FROM members #
-								WHERE name IN (%s)", #
-								paste(sprintf("'%s'", names), collapse = ","))#
-	member_since <- sqlQuery(tm, member_since_qry)#
-	df <- data.frame(name = names, member_since = member_since$member_since, status = rep(newStatus, length(names)))#
-#
-	sqlUpdate(tm, df, tablename = "members")#
-}
-update_members(c("Jay Fabian", "Jung Kim", "Inactive"))
-update_members <- function(names, newStatus = "Inactive"){#
-	#source("include/dbconnection")#
-	member_since_qry <- sprintf("SELECT member_since #
-								FROM members #
-								WHERE name IN (%s)", #
-								paste(sprintf("'%s'", names), collapse = ","))#
-	member_since <- sqlQuery(tm, member_since_qry)#
-	df <- data.frame(name = names, member_since = member_since$member_since, status = rep(newStatus, length(names)))#
-#
-	sqlUpdate(tm, df, tablename = "members")#
-}
-update_members(c("Jay Fabian", "Jung Kim", "Inactive"))
-update_members <- function(names, newStatus = "Inactive"){#
-	#source("include/dbconnection")#
-	member_since_qry <- sprintf("SELECT member_since #
-								FROM members #
-								WHERE name IN (%s)", #
-								paste(sprintf("'%s'", names), collapse = ","))#
-	member_since <- sqlQuery(tm, member_since_qry)#
-	print(length(names)#
-	print(length(member_since)))#
-	df <- data.frame(name = names, member_since = member_since$member_since, status = rep(newStatus, length(names)))#
-#
-	sqlUpdate(tm, df, tablename = "members")#
-}
-update_members <- function(names, newStatus = "Inactive"){#
-	#source("include/dbconnection")#
-	member_since_qry <- sprintf("SELECT member_since #
-								FROM members #
-								WHERE name IN (%s)", #
-								paste(sprintf("'%s'", names), collapse = ","))#
-	member_since <- sqlQuery(tm, member_since_qry)#
-	print(length(names))#
-	print(length(member_since))#
-	df <- data.frame(name = names, member_since = member_since$member_since, status = rep(newStatus, length(names)))#
-#
-	sqlUpdate(tm, df, tablename = "members")#
-}
-update_members(c("Jay Fabian", "Jung Kim", "Inactive"))
-update_members(c("Jay Fabian", "Jung Kim"), "Inactive")
-?sqlUpdate
-update_members <- function(names, newStatus = "Inactive"){#
-	#source("include/dbconnection")#
-	member_since_qry <- sprintf("SELECT member_since #
-								FROM members #
-								WHERE name IN (%s)", #
-								paste(sprintf("'%s'", names), collapse = ","))#
-	member_since <- sqlQuery(tm, member_since_qry)#
-	print(length(names))#
-	print(length(member_since))#
-	df <- data.frame(name = names, member_since = member_since$member_since, status = rep(newStatus, length(names)))#
-#
-	sqlUpdate(tm, df, tablename = "members", index = "status")#
-}
-update_members(c("Jay Fabian", "Jung Kim"), "Inactive")
-test <- sqlQuery(tm, "SELECT * FROM members WHERE name IN ('Jay Fabian', 'Jung Kim')")
-test
-getwd)=
-getwd)=
-getwd()
 setwd("~/Documents/Toastmasters/secretary_shiny_app/")
-runApp()
 library(shiny)
 runApp()
-odbcClose(tm)
+tm
+sqlTables(tm)
+sqlQuery(tm, "SELECT * FROM meetings")
+meetings <- read.csv("~/docs/manual_work.csv")
+meetings <- read.csv("../datawork/manual_work.csv")
+dim(meetings)
+meetings
+sqlDrop(tm, "meetings")
+meetings$role <- gsub(" ", "_", meetings$role)#
+meetings$role[meetings$role == "timer/vote_counter"] <- "timer_and_voter_counter"#
+sqlSave(tm, meetings, 'meetings', varTypes = c(meeting_date = "date", role = "varchar", name = "varchar"), colnames = FALSE, rownames = FALSE)
+sqlQuery(tm, "SELECT * FROM meetings")
+meetings <- read.csv("../datawork/manual_work.csv")
+sqlDrop(tm, "meetings")
+meetings$meeting_date <- as.Date(meetings$meeting_date, "%m/%d/%y")#
+head(meetings)#
+#
+### fix the discrepancy in how I am treating role names in the db:#
+meetings$role <- gsub(" ", "_", meetings$role)#
+meetings$role[meetings$role == "timer/vote_counter"] <- "timer_and_voter_counter"#
+sqlSave(tm, meetings, 'meetings', varTypes = c(meeting_date = "date", role = "varchar", name = "varchar"), colnames = FALSE, rownames = FALSE)
+sqlQuery(tm, "SELECT * FROM meetings")
+tmdf <- meetings[meetings$role == 'toastmaster']#
+#
+tmg <- ggplot(tmdf, aes(x = name)) +#
+	geom_histogram()
+library(ggplot2)
+ggplot(tmdf, aes(x = name)) +#
+	geom_histogram()
+tmdf <- meetings[meetings$role == 'toastmaster', ]
+ggplot(tmdf, aes(x = name)) +#
+	geom_histogram()
+ggplot(meetings, aes(x = name)) +#
+	geom_histogram() + #
+	facet_wrap(~role)
+noattnd <- meetings[meetings$role != "attendee", ]#
+#
+ggplot(noattnd, aes(x = name)) +#
+	geom_histogram() + #
+	facet_wrap(~role)
 runApp()
-memdb
+rolesdf <- sqlQuery(tm, "SELECT member.name, meeting.name, role #
+						FROM members#
+						JOIN ON member.name = meeting.name#
+						WHERE status = 'Active")
+rolesdf
+rolesdf <- sqlQuery(tm, "SELECT member.name, meeting.name, role #
+						FROM members#
+						JOIN name ON member.name = meeting.name#
+						WHERE status = 'Active")
+rolesdf
+rolesdf <- sqlQuery(tm, "SELECT member.name, meeting.name, role #
+						FROM members#
+						JOIN name ON member.name = meeting.name#
+						WHERE status = 'Active'")
+rolesdf
+########### role viz data prep#
+rolesdf <- sqlQuery(tm, "SELECT member, name, role #
+						FROM members#
+						JOIN name ON members.member = meeting.name#
+						WHERE status = 'Active'")
+rolesdf
+sqlColumns(tm, 'meetings')
+rolesdf <- sqlQuery(tm, "SELECT member, name, role #
+						FROM members, meetings#
+						JOIN name ON members.member = meeting.name#
+						WHERE status = 'Active'")
+rolesdf
+rolesdf <- sqlQuery(tm, "SELECT member, name, role #
+						FROM members, meetings#
+						JOIN name ON members.member = meetings.name#
+						WHERE status = 'Active'")
+rolesdf
+sqlColumns(tm, "members")
+rolesdf <- sqlQuery(tm, "SELECT name, role #
+						FROM members, meetings#
+						WHERE members.name = meetings.name AND member.status = 'Active'")
+rolesdf
+sqlQuery(tm, "SELECT name FROM meetings")
+sqlQuery(tm, "SELECT name FROM members")
+rolesdf <- sqlQuery(tm, "SELECT meeting.name, role #
+						FROM members, meetings#
+						WHERE members.name = meetings.name AND member.status = 'Active'")
+rolesdf
+rolesdf <- sqlQuery(tm, "SELECT meetings.name, role #
+						FROM members, meetings#
+						WHERE members.name = meetings.name AND member.status = 'Active'")
+rolesdf
+rolesdf <- sqlQuery(tm, "SELECT meetings.name, role #
+						FROM members, meetings#
+						WHERE members.name = meetings.name AND members.status = 'Active'")
+rolesdf
+rolesdf <- sqlQuery(tm, "SELECT meetings.name, role #
+						FROM members, meetings#
+						WHERE members.name = meetings.name AND members.status = 'Active' AND member.role != 'attendee'")
+rolesdf
+rolesdf <- sqlQuery(tm, "SELECT meetings.name, role #
+						FROM members, meetings#
+						WHERE members.name = meetings.name AND members.status = 'Active' AND meetings.role != 'attendee'")
+rolesdf
+rolesdf[rolesdf$role == "toastmaster",] %>%#
+	ggvis(x = ~name) %>%#
+	layer_histogram()
+rolesdf[rolesdf$role == "toastmaster",] %>%#
+	ggvis(x = ~name) +#
+	layer_histogram()
+roleplots <- function(dat){#
+	ggplot(dat, aes(x = name)) +#
+	gemo_histogram() +#
+	theme_bw()#
+	theme(axis.text.x = element_text(angle = 30, hjust = 1, vjust = 1))#
+}#
+#
+roleplots(rolesdf[rolesdf$role == "toastmaster",])
+roleplots <- function(dat){#
+	ggplot(dat, aes(x = name)) +#
+	geom_histogram() +#
+	theme_bw()#
+	theme(axis.text.x = element_text(angle = 30, hjust = 1, vjust = 1))#
+}#
+#
+roleplots(rolesdf[rolesdf$role == "toastmaster",])
+roleplots <- function(dat){#
+	g <- ggplot(dat, aes(x = name)) +#
+	geom_histogram() +#
+	theme_bw()#
+	theme(axis.text.x = element_text(angle = 30, hjust = 1, vjust = 1))#
+	return(g)#
+}#
+#
+roleplots(rolesdf[rolesdf$role == "toastmaster",])
+roleplots <- function(dat, role){#
+	tmp <- dat[dat$role == role,]#
+	g <- ggplot(tmp, aes(x = name)) +#
+	geom_histogram() +#
+	theme_bw()#
+	theme(axis.text.x = element_text(angle = 30, hjust = 1, vjust = 1))#
+	return(g)#
+}#
+#
+roleplots(rolesdf, "toastmaster")
+sub
+roleplots <- function(dat, role){#
+	tmp <- dat[dat$role == role,]#
+	tbdf <- as.data.frame(table(tmp$name))#
+	g <- ggplot(tmp, aes(x = name, y = Freq)) +#
+	geom_bar(stat = "identity") +#
+	scale.y.continuous(breaks = seq(1:max(tbdf$Freq), 1), labels = seq(1:max(tbdf$Freq), expand = c(0,0)+#
+	theme_bw()#
+	theme(axis.text.x = element_text(angle = 30, hjust = 1, vjust = 1))#
+	return(g)#
+}#
+#
+roleplots(rolesdf, "toastmaster")
+roleplots <- function(dat, role){#
+	tmp <- dat[dat$role == role,]#
+	tbdf <- as.data.frame(table(tmp$name))#
+	g <- ggplot(tmp, aes(x = name, y = Freq)) +#
+	geom_bar(stat = "identity") +#
+	scale.y.continuous(breaks = seq(1:max(tbdf$Freq), 1), labels = seq(1:max(tbdf$Freq), expand = c(0,0)+#
+	theme_bw()#
+	theme(axis.text.x = element_text(angle = 30, hjust = 1, vjust = 1))#
+	return(g)#
+}#
+#
+roleplots(rolesdf, "evaluator")
+roleplots <- function(dat, role){#
+	tmp <- dat[dat$role == role,]#
+	tbdf <- as.data.frame(table(tmp$name))#
+	g <- ggplot(tmp, aes(x = name, y = Freq)) +#
+	geom_bar(stat = "identity") +#
+	scale.y.continuous(breaks = seq(1:max(tbdf$Freq), 1), labels = seq(1:max(tbdf$Freq), expand = c(0,0)+#
+	theme_bw() +#
+	theme(axis.text.x = element_text(angle = 30, hjust = 1, vjust = 1))#
+	return(g)#
+}#
+#
+roleplots(rolesdf, "evaluator")
+roleplots <- function(dat, role){#
+	tmp <- dat[dat$role == role,]#
+	tbdf <- as.data.frame(table(tmp$name))#
+	g <- ggplot(tmp, aes(x = name, y = Freq)) +#
+	geom_bar(stat = "identity") +#
+	scale.y.continuous(breaks = seq(1:max(tbdf$Freq), 1), labels = seq(1:max(tbdf$Freq), expand = c(0,0)+#
+	theme_bw() +#
+	theme(axis.text.x = element_text(angle = 30, hjust = 1, vjust = 1))#
+	return(g)#
+}#
+#
+roleplots(rolesdf, "ah_counter")
+roleplots <- function(dat, role){#
+	tmp <- dat[dat$role == role,]#
+	tbdf <- as.data.frame(table(tmp$name))#
+	g <- ggplot(tmp, aes(x = name, y = Freq)) +#
+	geom_bar(stat = "identity") +#
+	scale.y.continuous(breaks = seq(1:max(tbdf$Freq), 1), labels = seq(1:max(tbdf$Freq), expand = c(0,0))+#
+	theme_bw() +#
+	theme(axis.text.x = element_text(angle = 30, hjust = 1, vjust = 1))#
+	return(g)#
+}#
+#
+roleplots(rolesdf, "ah_counter")
+ggplot(rolesdf[rolesdf$role == "ah_counter",], aes(x = name, y = Freq)) +#
+	geom_bar(stat = "identity") +#
+	scale.y.discrete(breaks = seq(1:max(tbdf$Freq), 1), #
+		labels = seq(1:max(tbdf$Freq), #
+		expand = c(0,0))+#
+	theme_bw() +#
+	theme(axis.text.x = element_text(angle = 30, hjust = 1, vjust = 1))
+ggplot(rolesdf[rolesdf$role == "ah_counter",], aes(x = name, y = Freq)) +#
+	geom_bar(stat = "identity") +#
+	scale.y.discrete(breaks = seq(1, max(tbdf$Freq), 1), #
+		labels = seq(1:max(tbdf$Freq), #
+		expand = c(0,0))+#
+	theme_bw() +#
+	theme(axis.text.x = element_text(angle = 30, hjust = 1, vjust = 1))
+ggplot(rolesdf[rolesdf$role == "ah_counter",], aes(x = name, y = Freq)) +#
+	geom_bar(stat = "identity") +#
+	scale.y.discrete(breaks = seq(1:max(tbdf$Freq), 1), #
+		labels = seq(1:max(tbdf$Freq), #
+		expand = c(0,0))+#
+	theme_bw() +#
+	theme(axis.text.x = element_text(angle = 30, hjust = 1, vjust = 1))ggplot(rolesdf[rolesdf$role == "ah_counter",], aes(x = name, y = Freq)) +#
+	geom_bar(stat = "identity")
+fuck <- rolesdf[rolesdf$role == "ah_counter",]#
+tb <- table(fuck$name)#
+#
+ggplot(tb, aes(x = name, y = Freq)) +#
+	geom_bar(stat = "identity") +#
+	scale.y.discrete(breaks = seq(1, max(tbdf$Freq), 1), #
+		labels = seq(1:max(tbdf$Freq), #
+		expand = c(0,0))+#
+	theme_bw() +#
+	theme(axis.text.x = element_text(angle = 30, hjust = 1, vjust = 1))
+ggplot(tb, aes(x = name, y = Freq)) +#
+	geom_bar(stat = "identity")
+tb
+tb <- as.data.frame(table(fuck$name))#
+#
+ggplot(tb, aes(x = name, y = Freq)) +#
+	geom_bar(stat = "identity")
+tb
+ggplot(tb, aes(x = Var1, y = Freq)) +#
+	geom_bar(stat = "identity")
+ggplot(tb, aes(x = Var1, y = Freq)) +#
+	geom_bar(stat = "identity") +#
+	scale.y.discrete(breaks = seq(1, max(tbdf$Freq), 1), #
+		labels = seq(1:max(tbdf$Freq), #
+		expand = c(0,0))+#
+	theme_bw() +#
+	theme(axis.text.x = element_text(angle = 30, hjust = 1, vjust = 1))
+ggplot(tb, aes(x = Var1, y = Freq)) +#
+	geom_bar(stat = "identity") +#
+	scale.y.discrete(breaks = seq(1, max(tbdf$Freq), 1), #
+		labels = seq(1:max(tbdf$Freq), #
+		expand = c(0,0))
+seq(1, max(tb$Freq), 1)
+seq_along(1, max(tb$Freq), 1)
+?seq
+max(tb$Freq)
+seq(1, max(tb$Freq), 1)
+ggplot(tb, aes(x = Var1, y = Freq)) +#
+	geom_bar(stat = "identity") +#
+	scale.y.discrete(breaks = seq(1, max(tb$Freq), 1), #
+		labels = seq(1, max(tb$Freq), #
+		expand = c(0,0)) +#
+	theme_bw() +#
+	theme(axis.text.x = element_text(angle = 30, hjust = 1, vjust = 1))
+ggplot(tb, aes(x = Var1, y = Freq)) +#
+	geom_bar(stat = "identity") +#
+	scale.y.discrete(breaks = seq(1, max(tb$Freq), 1), #
+		labels = seq(1, max(tb$Freq), 1), #
+		expand = c(0,0)) +#
+	theme_bw() +#
+	theme(axis.text.x = element_text(angle = 30, hjust = 1, vjust = 1))
+ggplot(tb, aes(x = Var1, y = Freq)) +#
+	geom_bar(stat = "identity") +#
+	scale_y_discrete(breaks = seq(1, max(tb$Freq), 1), #
+		labels = seq(1, max(tb$Freq), 1), #
+		expand = c(0,0)) +#
+	theme_bw() +#
+	theme(axis.text.x = element_text(angle = 30, hjust = 1, vjust = 1))
+ggplot(tb, aes(x = Var1, y = Freq)) +#
+	geom_bar(stat = "identity") +#
+	scale_y_discrete(breaks = seq(1, max(tb$Freq), 1), #
+		labels = seq(1, max(tb$Freq), 1), #
+		expand = c(0,0)) +#
+	theme_bw() +#
+	theme(axis.text.x = element_text(angle = 30, hjust = 1, vjust = 1)) +#
+	labs(x = "Member", y = "Number of times fullfilling this role")
+roleplots <- function(dat, role){#
+	tmp <- dat[dat$role == role,]#
+	tbdf <- as.data.frame(table(tmp$name))#
+	g <- ggplot(tbdf, aes(x = Var1, y = Freq)) +#
+	geom_bar(stat = "identity", fill = "blue") +#
+	scale_y_discrete(breaks = seq(1, max(tbdf$Freq), 1), #
+		labels = seq(1, max(tbdf$Freq), 1), #
+		expand = c(0,0)) +#
+	theme_bw() +#
+	theme(axis.text.x = element_text(angle = 30, hjust = 1, vjust = 1)) +#
+	labs(x = "", y = "Number of times fullfilling this role")#
+	return(g)#
+}#
+#
+roleplots(rolesdf, "ah_counter")
+table(rolesdf$role)
+rm(list=ls())
+library(shiny)
+runApp()
+runApp()
+runApp()
+roleplots(rolesdf, "ah_counter")
+roleplots(rolesdf, "timer_and_vote_counter")
+rolesdf[rolesdf$role = "timer_and_vote_counter"]
+rolesdf[rolesdf$role == "timer_and_vote_counter"]
+rolesdf[rolesdf$role == "timer_and_vote_counter",]
+sqlQuery(tm, "SELECT * FROM meetings WHERE meeting_date = (SELECT (max) meeting_date FROM meetings)")
+sqlQuery(tm, "SELECT * FROM meetings WHERE meeting_date = (SELECT max(meeting_date) FROM meetings)")
+rm(list=ls())
+library(shiny)
+runApp()
+sqlQuery(tm, "SELECT * FROM meetings WHERE meeting_date = (SELECT max(meeting_date) FROM meetings)")
+?updateSelectInput
+rm(list=ls())
+library(shiny)
+runApp()
+runApp()
+rm(list=ls())
+library(shiny)
+runApp()
+field_names
+rolesdf
+field_names
+rm(list=ls())
+runApp()
+runApp()
+runApp()
+rm(list=ls())
+library(shiny)
+runApp()
+rolesdf
+field_names
+?write.txt
+writeLines(field_names, "output.txt")
